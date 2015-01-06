@@ -28,7 +28,7 @@ class Auth implements SubscriberInterface
         $url = $e->getRequest()->getUrl();
         $b = $e->getRequest()->getBody();
         $body = '';
-        while (!$b->eof()) {
+        while (isset($b) && !$b->eof()) {
             $body .= $b->read(1024);
         }
         $signature = Utils::signRequest($this->accessKey, $this->secretkey, $url, $body);

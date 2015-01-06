@@ -17,15 +17,14 @@ final class Utils
         return base64_decode(str_replace($find, $replace, $str));
     }
 
-    public static function digest($secret_key, $data)
+    public static function digest($secret, $data)
     {
-        return hash_hmac('sha1', $data, $secret_key, true);
+        return hash_hmac('sha1', $data, $secret, true);
     }
 
-    public static function sign($access_key, $secret_key, $data)
+    public static function sign($secret, $data)
     {
-        $digest = self::digest($secret_key, $data);
-        return $access_key . ':' . self::base64UrlEncode($digest);
+        return self::base64UrlEncode(self::digest($secret, $data));
     }
 
     public static function signRequest($access_key, $secret_key, $url, $body = '')
@@ -42,6 +41,6 @@ final class Utils
         if (strlen($body)) {
             $data .= $body;
         }
-        return self::sign($access_key, $secret_key, $data);
+        return $access_key . ':' . self::sign($secret_key, $data);
     }
 }
