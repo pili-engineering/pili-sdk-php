@@ -1,5 +1,27 @@
 {
+    "name": "pili-io/pili-php",
+    "type": "library",
+    "description": "PILI is a Live Streaming Cloud Service. The PILI SDK for PHP enables PHP developers to use PILI Live Streaming Cloud Services in their PHP code for building robust applications and software.",
+    "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "m3u8"],
+    "homepage": "https://github.com/pili-io",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "why404",
+            "email": "why404@gmail.com",
+            "homepage": "https://github.com/why404"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pili-io/pili-php/issues"
+    },
     "require": {
+        "php": ">=5.4.0",
         "guzzlehttp/guzzle": "~5.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Pili": "src/"
+        }
     }
 }
