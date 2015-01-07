@@ -47,7 +47,7 @@ After installing, you need to require Composer's autoloader:
 ```
 
 You can find out more on how to install Composer, configure autoloading, and
-other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org)`.
+other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org).
 
 
 ## Quick Example
