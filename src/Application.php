@@ -43,7 +43,7 @@ class Application
             'base_url' => self::API_END_POINT,
             'defaults' => [
                 'headers' => [
-                    'User-Agent'   => self::USER_AGENT .'/'. self::VERSION . ' ' . \GuzzleHttp\Client::getDefaultUserAgent(),
+                    'User-Agent'   => self::USER_AGENT .'/'. self::VERSION . ' ' . Client::getDefaultUserAgent(),
                     'Content-Type' => 'application/json',
                 ],
             ]

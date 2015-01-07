@@ -5,7 +5,7 @@ The PILI SDK for PHP enables PHP developers to use PILI Live Streaming Cloud Ser
 
 ## Requirements
 
-- PHP 5.3.3+
+- PHP >= 5.4.0
 - [Guzzle](https://github.com/guzzle/guzzle) - PHP HTTP client and framework
 
 ## Installation
