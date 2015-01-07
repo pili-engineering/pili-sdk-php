@@ -1,21 +1,16 @@
-# PILI SDK for PHP
+# Pili SDK for PHP
 
-The PILI SDK for PHP enables PHP developers to use PILI Live Streaming Cloud Services in their PHP code for building robust applications and software.
-
+The Pili SDK for PHP enables PHP developers to use Pili Live Streaming Cloud Services in their PHP code for building robust applications and software.
 
 ## Requirements
 
-- PHP >= 5.4.0
-- [Guzzle](https://github.com/guzzle/guzzle) - PHP HTTP client and framework
+- PHP >= 5.3.0
 
-## Installation
+## Install with Composer
 
-The recommended way to install PILI is with [Composer](http://getcomposer.org). 
-Composer is a dependency management tool for PHP that allows you to declare the 
-dependencies your project needs and installs them into your project.
+If you're using [Composer](http://getcomposer.org) to manage dependencies, you can add Pili-PHP with it.
 
 ```bash
-
     # Install Composer
     curl -sS https://getcomposer.org/installer | php
 ```
@@ -23,15 +18,13 @@ dependencies your project needs and installs them into your project.
 You can add PILI as a dependency using the `composer.phar` CLI:
 
 ```bash
-
     php composer.phar require pili-io/pili-php:dev-master
 ```
 
-Alternatively, you can specify PILI as a dependency in your project's
+Alternatively, you can specify Pili-PHP as a dependency in your project's
 existing `composer.json` file:
 
 ```js
-
     {
       "require": {
          "pili-io/pili-php": "dev-msater"
@@ -42,25 +35,50 @@ existing `composer.json` file:
 After installing, you need to require Composer's autoloader:
 
 ```php
-
     require 'vendor/autoload.php';
 ```
 
 You can find out more on how to install Composer, configure autoloading, and
-other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org).
+other best-practices for defining dependencies at <http://getcomposer.org>.
 
+## Install source from GitHub
+
+Pili-PHP requires PHP `v5.3+`. Download the PHP library from Github, and require in your script like so:
+
+To install the source code:
+
+```bash
+    $ git clone https://github.com/pili-io/pili-php.git
+```
+
+And include it in your scripts:
+
+```php
+    require_once '/path/to/pili-php/lib/Pili.php';
+```
+
+## Install source from zip/tarball
+
+Alternatively, you can fetch a [tarball](https://github.com/pili-io/pili-php/tarball/master) or [zipball](https://github.com/pili-io/pili-php/zipball/master):
+
+```bash
+    $ curl -L https://github.com/pili-io/pili-php/tarball/master | tar xzv
+    (or)
+    $ wget https://github.com/pili-io/pili-php/tarball/master -O - | tar xzv
+```
+
+And include it in your scripts:
+
+```php
+    require_once '/path/to/pili-php/lib/Pili.php';
+```
 
 ## Quick Example
 
 ```php
 
-    <?php
-    require 'vendor/autoload.php';
-
-    use Pili\Application;
-
     // Instantiate an PILI client
-    $app = new Application($accessKey, $secretKey); # => Object
+    $app = new Pili($accessKey, $secretKey); # => Object
 
     // Create a new Streaming
     $app->createStream(array(
@@ -102,15 +120,3 @@ other best-practices for defining dependencies at [getcomposer.org](http://getco
     // Signing a private play url
     $app->signPlayUrl($playUrl, $streamKey, $expiry); # => String
 ```
-
-
-## Contributing
-
-### Guidelines
-
-1. PILI follows PSR-0, PSR-1, and PSR-2.
-2. It is meant to be lean and fast with very few dependencies.
-3. PILI has a minimum PHP version requirement of PHP 5.4. Pull requests must
-   not require a PHP version greater than PHP 5.4.
-4. All pull requests must include unit tests to ensure the change works as
-   expected and to prevent regressions.
