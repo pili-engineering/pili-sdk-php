@@ -1,59 +1,58 @@
-========
-PILI SDK for PHP
-========
+# PILI SDK for PHP
 
 The PILI SDK for PHP enables PHP developers to use PILI Live Streaming Cloud Services in their PHP code for building robust applications and software.
 
 
-Requirements
-============
+## Requirements
 
-#. PHP 5.4.0+
-#. `Guzzle <https://github.com/guzzle/guzzle>`_ - PHP HTTP client and framework
+- PHP 5.4.0+
+- [Guzzle](https://github.com/guzzle/guzzle) - PHP HTTP client and framework
 
-Installation
-============
+## Installation
 
-The recommended way to install PILI is with `Composer <http://getcomposer.org>`_. 
+The recommended way to install PILI is with [Composer](http://getcomposer.org). 
 Composer is a dependency management tool for PHP that allows you to declare the 
 dependencies your project needs and installs them into your project.
 
-.. code-block:: bash
+```bash
 
     # Install Composer
     curl -sS https://getcomposer.org/installer | php
+```
 
 You can add PILI as a dependency using the composer.phar CLI:
 
-.. code-block:: bash
+```bash
 
     php composer.phar require pili-io/pili-php
+```
 
 Alternatively, you can specify PILI as a dependency in your project's
 existing composer.json file:
 
-.. code-block:: js
+```js
 
     {
       "require": {
          "pili-io/pili-php": "*"
       }
    }
+ ```
 
 After installing, you need to require Composer's autoloader:
 
-.. code-block:: php
+```php
 
     require 'vendor/autoload.php';
+```
 
 You can find out more on how to install Composer, configure autoloading, and
-other best-practices for defining dependencies at `getcomposer.org <http://getcomposer.org>`_.
+other best-practices for defining dependencies at [getcomposer.org](http://getcomposer.org)`.
 
 
-Quick Example
-=============
+## Quick Example
 
-.. code-block:: php
+```php
 
     <?php
     require 'vendor/autoload.php';
@@ -102,14 +101,12 @@ Quick Example
 
     // Signing a private play url
     $app->signPlayUrl($play_url, $stream_key, $expiry); # => String
+```
 
 
+## Contributing
 
-Contributing
-============
-
-Guidelines
-----------
+### Guidelines
 
 1. PILI follows PSR-0, PSR-1, and PSR-2.
 2. It is meant to be lean and fast with very few dependencies.
