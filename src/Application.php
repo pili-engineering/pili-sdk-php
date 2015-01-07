@@ -11,28 +11,28 @@ class Application
     const API_END_POINT = 'http://api.pili.qiniu.com/v1/';
 
     private $accessKey;
-    private $secretkey;
+    private $secretKey;
 
-    public function __construct($access_key, $secret_key)
+    public function __construct($accessKey, $secretKey)
     {
-        $this->accessKey = $access_key;
-        $this->secretkey = $secret_key;
+        $this->accessKey = $accessKey;
+        $this->secretkey = $secretKey;
     }
 
-    public function signPushUrl($url, $stream_key, $nonce = 0)
+    public function signPushUrl($url, $streamKey, $nonce = 0)
     {
         if(!$nonce) {
             $nonce = time();
         }
         $url .= '?nonce=' . $nonce;
-        $url .= '&token=' . Utils::sign($stream_key, $url);
+        $url .= '&token=' . Utils::sign($streamKey, $url);
         return $url;
     }
 
-    public function signPlayUrl($url, $stream_key, $expiry)
+    public function signPlayUrl($url, $streamKey, $expiry)
     {
         $url .= '?expiry=' . $expiry;
-        $url .= '&token=' . Utils::sign($stream_key, $url);
+        $url .= '&token=' . Utils::sign($streamKey, $url);
         return $url;
     }
 
@@ -70,66 +70,66 @@ class Application
         }
     }
 
-    public function getStream($stream_id)
+    public function getStream($streamId)
     {
         try {
-            return $this->getClient()->get("streams/$stream_id")->json();
+            return $this->getClient()->get("streams/$streamId")->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
     }
 
-    public function setStream($stream_id, array $params = [])
+    public function setStream($streamId, array $params = [])
     {
         try {
             $data = empty($params) ? array('body' => '{}') : array('json' => $params);
-            return $this->getClient()->post("streams/$stream_id", $data)->json();
+            return $this->getClient()->post("streams/$streamId", $data)->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
 
     }
 
-    public function delStream($stream_id)
+    public function delStream($streamId)
     {
         try {
-            return $this->getClient()->delete("streams/$stream_id")->json();
+            return $this->getClient()->delete("streams/$streamId")->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
     }
 
-    public function getStreamStatus($stream_id)
+    public function getStreamStatus($streamId)
     {
         try {
-            return $this->getClient()->get("streams/$stream_id/status")->json();
+            return $this->getClient()->get("streams/$streamId/status")->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
     }
 
-    public function getStreamSegments($stream_id, $starttime, $endtime)
+    public function getStreamSegments($streamId, $startTime, $endTime)
     {
         try {
-            return $this->getClient()->get("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+            return $this->getClient()->get("streams/$streamId/segments", ['query' => ['starttime' => $startTime, 'endtime' => $endTime]])->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
     }
 
-    public function playStreamSegments($stream_id, $starttime, $endtime)
+    public function playStreamSegments($streamId, $startTime, $endTime)
     {
         try {
-            return $this->getClient()->get("streams/$stream_id/segments/play", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+            return $this->getClient()->get("streams/$streamId/segments/play", ['query' => ['starttime' => $startTime, 'endtime' => $endTime]])->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }
     }
 
-    public function delStreamSegments($stream_id, $starttime, $endtime)
+    public function delStreamSegments($streamId, $startTime, $endTime)
     {
         try {
-            return $this->getClient()->delete("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+            return $this->getClient()->delete("streams/$streamId/segments", ['query' => ['starttime' => $startTime, 'endtime' => $endTime]])->json();
         } catch (BadResponseException $e) {
             return $e->getResponse()->json();
         }

@@ -27,7 +27,7 @@ final class Utils
         return self::base64UrlEncode(self::digest($secret, $data));
     }
 
-    public static function signRequest($access_key, $secret_key, $url, $body = '')
+    public static function signRequest($accessKey, $secretKey, $url, $body = '')
     {
         $url = parse_url($url);
         $data = '';
@@ -41,6 +41,6 @@ final class Utils
         if (strlen($body)) {
             $data .= $body;
         }
-        return $access_key . ':' . self::sign($secret_key, $data);
+        return $accessKey . ':' . self::sign($secretKey, $data);
     }
 }

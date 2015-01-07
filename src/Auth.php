@@ -8,14 +8,14 @@ use \GuzzleHttp\Event\RequestEvents;
 class Auth implements SubscriberInterface
 {
     private $accessKey;
-    private $secretkey;
+    private $secretKey;
     private $authPrefix;
 
-    public function __construct($access_key, $secret_key, $auth_prefix = 'pili')
+    public function __construct($accessKey, $secretKey, $authPrefix = 'pili')
     {
-        $this->accessKey  = $access_key;
-        $this->secretkey  = $secret_key;
-        $this->authPrefix = $auth_prefix;
+        $this->accessKey  = $accessKey;
+        $this->secretkey  = $secretKey;
+        $this->authPrefix = $authPrefix;
     }
 
     public function getEvents()
@@ -35,4 +35,3 @@ class Auth implements SubscriberInterface
         $e->getRequest()->setHeader('Authorization', $this->authPrefix . ' ' . $signature);
     }
 }
-
