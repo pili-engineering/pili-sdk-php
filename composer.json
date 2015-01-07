@@ -16,12 +16,27 @@
         "issues": "https://github.com/pili-io/pili-php/issues"
     },
     "require": {
-        "php": ">=5.4.0",
-        "guzzlehttp/guzzle": "~5.1"
+        "php": ">=5.3.3",
+        "guzzle/guzzle": "~3.7"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "psr/log": "~1.0",
+        "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-0": {
-            "Pili": "src/"
+        "psr-4": {
+            "Pili\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pili\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
         }
     }
 }

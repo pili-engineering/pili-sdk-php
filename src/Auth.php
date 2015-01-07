@@ -1,9 +1,9 @@
 <?php
 namespace Pili;
 
-use \GuzzleHttp\Event\SubscriberInterface;
-use \GuzzleHttp\Event\BeforeEvent;
-use \GuzzleHttp\Event\RequestEvents;
+use GuzzleHttp\Event\SubscriberInterface;
+use GuzzleHttp\Event\BeforeEvent;
+use GuzzleHttp\Event\RequestEvents;
 
 class Auth implements SubscriberInterface
 {

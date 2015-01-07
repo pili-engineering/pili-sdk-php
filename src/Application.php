@@ -1,7 +1,8 @@
 <?php
 namespace Pili;
 
-use \GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 
 class Application 
 {
@@ -38,7 +39,7 @@ class Application
 
     private function getClient()
     {
-        $client = new \GuzzleHttp\Client([
+        $client = new Client([
             'base_url' => self::API_END_POINT,
             'defaults' => [
                 'headers' => [
