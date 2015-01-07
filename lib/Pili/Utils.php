@@ -1,8 +1,23 @@
 <?php
+
 namespace Pili;
 
 final class Utils
 {
+
+    const USER_AGENT         = 'pili-php';
+    const DIGEST_AUTH_PREFIX = 'pili';
+
+    public static function getUserAgent($version)
+    {
+        $ua = self::USER_AGENT . '/' . $version;
+        if (extension_loaded('curl')) {
+            $ua .= ' curl/' . curl_version()['version'];
+        }
+        $ua .= ' PHP/' . PHP_VERSION;
+        return $ua;
+    }
+
     public static function base64UrlEncode($str)
     {
         $find = array('+', '/');
@@ -27,7 +42,7 @@ final class Utils
         return self::base64UrlEncode(self::digest($secret, $data));
     }
 
-    public static function signRequest($accessKey, $secretKey, $url, $body = '')
+    public static function signRequest($accessKey, $secretKey, $url, $body)
     {
         $url = parse_url($url);
         $data = '';
@@ -38,9 +53,11 @@ final class Utils
             $data .= '?' . $url['query'];
         }
         $data .= "\n";
-        if (strlen($body)) {
+        if (isset($body) && strlen($body)) {
             $data .= $body;
         }
-        return $accessKey . ':' . self::sign($secretKey, $data);
+        return self::DIGEST_AUTH_PREFIX . ' ' . $accessKey . ':' . self::sign($secretKey, $data);
     }
 }
+
+?>
