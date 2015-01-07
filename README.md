@@ -5,7 +5,7 @@ The PILI SDK for PHP enables PHP developers to use PILI Live Streaming Cloud Ser
 
 ## Requirements
 
-- PHP 5.4.0+
+- PHP 5.3.3+
 - [Guzzle](https://github.com/guzzle/guzzle) - PHP HTTP client and framework
 
 ## Installation
@@ -24,7 +24,7 @@ You can add PILI as a dependency using the `composer.phar` CLI:
 
 ```bash
 
-    php composer.phar require pili-io/pili-php
+    php composer.phar require pili-io/pili-php:dev-master
 ```
 
 Alternatively, you can specify PILI as a dependency in your project's
@@ -34,7 +34,7 @@ existing `composer.json` file:
 
     {
       "require": {
-         "pili-io/pili-php": "*"
+         "pili-io/pili-php": "dev-msater"
       }
    }
  ```
