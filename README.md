@@ -20,7 +20,7 @@ dependencies your project needs and installs them into your project.
     curl -sS https://getcomposer.org/installer | php
 ```
 
-You can add PILI as a dependency using the composer.phar CLI:
+You can add PILI as a dependency using the `composer.phar` CLI:
 
 ```bash
 
@@ -28,7 +28,7 @@ You can add PILI as a dependency using the composer.phar CLI:
 ```
 
 Alternatively, you can specify PILI as a dependency in your project's
-existing composer.json file:
+existing `composer.json` file:
 
 ```js
 
@@ -60,47 +60,47 @@ other best-practices for defining dependencies at [getcomposer.org](http://getco
     use Pili\Application;
 
     // Instantiate an PILI client
-    $app = new Application($access_key, $secret_key); # => Object
+    $app = new Application($accessKey, $secretKey); # => Object
 
     // Create a new Streaming
     $app->createStream(array(
         'is_private' => false, 
-        'comment' => 'a public streaming',
+        'comment'    => 'a public streaming',
     )); # => Array
 
     // List exist Streams
     $app->listStreams(); # => Array
 
     // Query a Stream
-    $app->getStream($stream_id); # => Array
+    $app->getStream($streamId); # => Array
 
     // Update a Stream
-    $app->setStream($stream_id, array(
+    $app->setStream($streamId, array(
         'is_private' => true, 
         'stream_key' => 'a new stream key', 
-        'comment' => 'a private streaming',
+        'comment'    => 'a private streaming',
     )); # => Array
 
     // Delete a Stream
-    $app->delStream($stream_id); # => NULL
+    $app->delStream($streamId); # => NULL
 
     // Get Status on a Stream
-    $app->getStreamStatus($stream_id); # => Array
+    $app->getStreamStatus($streamId); # => Array
 
     // Get recording segments from a Stream
-    $app->getStreamSegments($stream_id, $start_timestamp, $end_timestamp); # => Array
+    $app->getStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Get the play url of those stream recording segments
-    $app->playStreamSegments($stream_id, $start_timestamp, $end_timestamp); # => Array
+    $app->playStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Delete recording segments on a Stream
-    $app->delStreamSegments($stream_id, $start_timestamp, $end_timestamp); # => Array
+    $app->delStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Signing a push url
-    $app->signPushUrl($push_url, $stream_key, $nonce); # => String
+    $app->signPushUrl($pushUrl, $streamKey, $nonce); # => String
 
     // Signing a private play url
-    $app->signPlayUrl($play_url, $stream_key, $expiry); # => String
+    $app->signPlayUrl($playUrl, $streamKey, $expiry); # => String
 ```
 
 
