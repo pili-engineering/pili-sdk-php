@@ -1,6 +1,8 @@
 <?php
 namespace Pili;
 
+use \GuzzleHttp\Exception\BadResponseException;
+
 class Application 
 {
 
@@ -51,49 +53,86 @@ class Application
 
     public function createStream(array $params = [])
     {
-        $data = empty($params) ? array('body' => '{}') : array('json' => $params);
-        return $this->getClient()->post('streams', $data)->json();
+        try {
+            $data = empty($params) ? array('body' => '{}') : array('json' => $params);
+            return $this->getClient()->post('streams', $data)->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function listStreams()
     {
-        return $this->getClient()->get('streams')->json();
+        try {
+            return $this->getClient()->get('streams')->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function getStream($stream_id)
     {
-        return $this->getClient()->get("streams/$stream_id")->json();
+        try {
+            return $this->getClient()->get("streams/$stream_id")->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function setStream($stream_id, array $params = [])
     {
-        $data = empty($params) ? array('body' => '{}') : array('json' => $params);
-        return $this->getClient()->post("streams/$stream_id", $data)->json();
+        try {
+            $data = empty($params) ? array('body' => '{}') : array('json' => $params);
+            return $this->getClient()->post("streams/$stream_id", $data)->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
+
     }
 
     public function delStream($stream_id)
     {
-        return $this->getClient()->delete("streams/$stream_id")->json();
+        try {
+            return $this->getClient()->delete("streams/$stream_id")->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function getStreamStatus($stream_id)
     {
-        return $this->getClient()->get("streams/$stream_id/status")->json();
+        try {
+            return $this->getClient()->get("streams/$stream_id/status")->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function getStreamSegments($stream_id, $starttime, $endtime)
     {
-        return $this->getClient()->get("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        try {
+            return $this->getClient()->get("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function playStreamSegments($stream_id, $starttime, $endtime)
     {
-        return $this->getClient()->get("streams/$stream_id/segments/play", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        try {
+            return $this->getClient()->get("streams/$stream_id/segments/play", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
     public function delStreamSegments($stream_id, $starttime, $endtime)
     {
-        return $this->getClient()->delete("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        try {
+            return $this->getClient()->delete("streams/$stream_id/segments", ['query' => ['starttime' => $starttime, 'endtime' => $endtime]])->json();
+        } catch (BadResponseException $e) {
+            return $e->getResponse()->json();
+        }
     }
 
 }
