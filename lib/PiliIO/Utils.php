@@ -1,6 +1,6 @@
 <?php
 
-namespace Pili;
+namespace PiliIO;
 
 final class Utils
 {
@@ -12,7 +12,8 @@ final class Utils
     {
         $ua = self::USER_AGENT . '/' . $version;
         if (extension_loaded('curl')) {
-            $ua .= ' curl/' . curl_version()['version'];
+            $curlVersion = curl_version();
+            $ua .= ' curl/' . $curlVersion['version'];
         }
         $ua .= ' PHP/' . PHP_VERSION;
         return $ua;

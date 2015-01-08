@@ -54,7 +54,7 @@ To install the source code:
 And include it in your scripts:
 
 ```php
-    require_once '/path/to/pili-php/lib/Pili.php';
+    require_once '/path/to/pili-php/lib/PiliIO.php';
 ```
 
 ## Install source from zip/tarball
@@ -70,15 +70,15 @@ Alternatively, you can fetch a [tarball](https://github.com/pili-io/pili-php/tar
 And include it in your scripts:
 
 ```php
-    require_once '/path/to/pili-php/lib/Pili.php';
+    require_once '/path/to/pili-php/lib/PiliIO.php';
 ```
 
 ## Quick Example
 
 ```php
 
-    // Instantiate an PILI client
-    $app = new Pili($accessKey, $secretKey); # => Object
+    // Instantiate an Pili client
+    $app = new PiliIO($accessKey, $secretKey); # => Object
 
     // Create a new Streaming
     $app->createStream(array(
