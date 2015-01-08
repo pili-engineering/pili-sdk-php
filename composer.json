@@ -7,13 +7,11 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "why404",
-            "email": "why404@gmail.com",
-            "homepage": "https://github.com/why404"
+            "name": "Pili.io Engineering",
+            "homepage": "https://github.com/pili-io"
         }
     ],
     "support": {
-        "email": "why404@gmail.com",
         "issues": "https://github.com/pili-io/pili-php/issues"
     },
     "require": {

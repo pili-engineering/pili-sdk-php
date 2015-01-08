@@ -1,15 +1,15 @@
 <?php
 
-namespace Unirest;
+namespace PiliIO;
 
 class HttpResponse
 {
-    
+
     private $code;
     private $raw_body;
     private $body;
     private $headers;
-    
+
     /**
      * @param int $code response code of the cURL request
      * @param string $raw_body the raw body of the cURL response
@@ -21,13 +21,12 @@ class HttpResponse
         $this->headers  = $this->get_headers_from_curl_response($headers);
         $this->raw_body = $raw_body;
         $this->body     = $raw_body;
-        $json           = json_decode($raw_body);
-        
+        $json           = json_decode($raw_body, true);
         if (json_last_error() == JSON_ERROR_NONE) {
             $this->body = $json;
         }
     }
-    
+
     /**
      * Return a property of the response if it exists.
      * Possibilities include: code, raw_body, headers, body (if the response is json-decodable)
@@ -39,7 +38,7 @@ class HttpResponse
             return $this->$property;
         }
     }
-    
+
     /**
      * Set the properties of this object
      * @param string $property the property name
@@ -52,7 +51,7 @@ class HttpResponse
         }
         return $this;
     }
-    
+
     /**
      * Retrieve the cURL response headers from the
      * header string and convert it into an array
@@ -63,15 +62,13 @@ class HttpResponse
     {
         $headers = explode("\r\n", $headers);
         array_shift($headers);
-        
         foreach ($headers as $line) {
             if (strstr($line, ': ')) {
                 list($key, $value) = explode(': ', $line);
                 $result[$key] = $value;
             }
         }
-        
         return $result;
     }
-    
+
 }
