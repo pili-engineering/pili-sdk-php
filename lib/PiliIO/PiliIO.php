@@ -1,8 +1,8 @@
 <?php
 
-use Pili\Utils;
+use PiliIO\Utils;
 
-class Pili
+class PiliIO
 {
 
     const VERSION      = '0.1.1';
