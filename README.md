@@ -78,45 +78,45 @@ And include it in your scripts:
 ```php
 
     // Instantiate an Pili client
-    $app = new PiliIO($accessKey, $secretKey); # => Object
+    $pili = new PiliIO($accessKey, $secretKey); # => Object
 
     // Create a new Streaming
-    $app->createStream(array(
+    $pili->createStream(array(
         'is_private' => false, 
         'comment'    => 'a public streaming',
     )); # => Array
 
     // List exist Streams
-    $app->listStreams(); # => Array
+    $pili->listStreams(); # => Array
 
     // Query a Stream
-    $app->getStream($streamId); # => Array
+    $pili->getStream($streamId); # => Array
 
     // Update a Stream
-    $app->setStream($streamId, array(
+    $pili->setStream($streamId, array(
         'is_private' => true, 
         'stream_key' => 'a new stream key', 
         'comment'    => 'a private streaming',
     )); # => Array
 
     // Delete a Stream
-    $app->delStream($streamId); # => NULL
+    $pili->delStream($streamId); # => NULL
 
     // Get Status on a Stream
-    $app->getStreamStatus($streamId); # => Array
+    $pili->getStreamStatus($streamId); # => Array
 
     // Get recording segments from a Stream
-    $app->getStreamSegments($streamId, $startTime, $endTime); # => Array
+    $pili->getStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Get the play url of those stream recording segments
-    $app->playStreamSegments($streamId, $startTime, $endTime); # => Array
+    $pili->playStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Delete recording segments on a Stream
-    $app->delStreamSegments($streamId, $startTime, $endTime); # => Array
+    $pili->delStreamSegments($streamId, $startTime, $endTime); # => Array
 
     // Signing a push url
-    $app->signPushUrl($pushUrl, $streamKey, $nonce); # => String
+    $pili->signPushUrl($pushUrl, $streamKey, $nonce); # => String
 
     // Signing a private play url
-    $app->signPlayUrl($playUrl, $streamKey, $expiry); # => String
+    $pili->signPlayUrl($playUrl, $streamKey, $expiry); # => String
 ```
