@@ -8,7 +8,7 @@ The Pili SDK for PHP enables PHP developers to use Pili Live Streaming Cloud Ser
 
 ## Install with Composer
 
-If you're using [Composer](http://getcomposer.org) to manage dependencies, you can add Pili-PHP with it.
+If you're using [Composer](http://getcomposer.org) to manage dependencies, you can add piliio-php with it.
 
 ```bash
     # Install Composer
@@ -18,16 +18,16 @@ If you're using [Composer](http://getcomposer.org) to manage dependencies, you c
 You can add PILI as a dependency using the `composer.phar` CLI:
 
 ```bash
-    php composer.phar require pili-io/pili-php:dev-master
+    php composer.phar require pili-io/piliio-php:dev-master
 ```
 
-Alternatively, you can specify Pili-PHP as a dependency in your project's
+Alternatively, you can specify piliio-php as a dependency in your project's
 existing `composer.json` file:
 
 ```js
     {
       "require": {
-         "pili-io/pili-php": "dev-msater"
+         "pili-io/piliio-php": "dev-msater"
       }
    }
  ```
@@ -43,34 +43,34 @@ other best-practices for defining dependencies at <http://getcomposer.org>.
 
 ## Install source from GitHub
 
-Pili-PHP requires PHP `v5.3+`. Download the PHP library from Github, and require in your script like so:
+piliio-php requires PHP `v5.3+`. Download the PHP library from Github, and require in your script like so:
 
 To install the source code:
 
 ```bash
-    $ git clone https://github.com/pili-io/pili-php.git
+    $ git clone https://github.com/pili-io/piliio-php.git
 ```
 
 And include it in your scripts:
 
 ```php
-    require_once '/path/to/pili-php/lib/PiliIO.php';
+    require_once '/path/to/piliio-php/lib/PiliIO.php';
 ```
 
 ## Install source from zip/tarball
 
-Alternatively, you can fetch a [tarball](https://github.com/pili-io/pili-php/tarball/master) or [zipball](https://github.com/pili-io/pili-php/zipball/master):
+Alternatively, you can fetch a [tarball](https://github.com/pili-io/piliio-php/tarball/master) or [zipball](https://github.com/pili-io/piliio-php/zipball/master):
 
 ```bash
-    $ curl -L https://github.com/pili-io/pili-php/tarball/master | tar xzv
+    $ curl -L https://github.com/pili-io/piliio-php/tarball/master | tar xzv
     (or)
-    $ wget https://github.com/pili-io/pili-php/tarball/master -O - | tar xzv
+    $ wget https://github.com/pili-io/piliio-php/tarball/master -O - | tar xzv
 ```
 
 And include it in your scripts:
 
 ```php
-    require_once '/path/to/pili-php/lib/PiliIO.php';
+    require_once '/path/to/piliio-php/lib/PiliIO.php';
 ```
 
 ## Usage
@@ -120,6 +120,7 @@ And include it in your scripts:
     // Signing a private play url
     $pili->signPlayUrl($playUrl, $streamKey, $expiry); # => String
 
+```
 
 ## Quick Example
 
