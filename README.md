@@ -25,6 +25,7 @@ Alternatively, you can specify piliio-php as a dependency in your project's
 existing `composer.json` file:
 
 ```js
+
 {
     "require": {
         pili-io/piliio-php": "dev-msater"
@@ -78,7 +79,6 @@ require_once '/path/to/piliio-php/lib/PiliIO.php';
 ## Usage
 
 ```php
-
 // Instantiate an PiliIO client
 $pili = new PiliIO($accessKey, $secretKey); # => Object
 
@@ -127,7 +127,6 @@ $pili->signPlayUrl($playUrl, $streamKey, $expiry); # => String
 ## Quick Example
 
 ```php
-
 // Replace with your keys
 $accessKey = 'YOUR_ACCESS_KEY';
 $secretKey = 'YOUR_SECRET_KEY';
