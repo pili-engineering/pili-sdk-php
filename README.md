@@ -75,8 +75,7 @@ And include it in your scripts:
 
 ## Usage
 
-```
-php
+```php
 
     // Instantiate an PiliIO client
     $pili = new PiliIO($accessKey, $secretKey); # => Object

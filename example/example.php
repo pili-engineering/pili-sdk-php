@@ -1,6 +1,6 @@
 <?php
 
-require(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'lib', 'PiliIO.php')));
+require(join(DIRECTORY_SEPARATOR, array(dirname(dirname(__FILE__)), 'lib', 'PiliIO.php')));
 
 // Replace with your keys
 $accessKey = 'YOUR_ACCESS_KEY';
