@@ -5,7 +5,7 @@ namespace PiliIO;
 final class Utils
 {
 
-    const USER_AGENT         = 'pili-php';
+    const USER_AGENT         = 'piliio-php';
     const DIGEST_AUTH_PREFIX = 'pili';
 
     public static function getUserAgent($version)

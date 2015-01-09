@@ -163,7 +163,7 @@ class HttpRequest
         $response = curl_exec($ch);
         $error    = curl_error($ch);
         if ($error) {
-            throw new Exception($error);
+            throw new \Exception($error);
         }
         // Split the full response in its headers and body
         $curl_info   = curl_getinfo($ch);
@@ -171,9 +171,11 @@ class HttpRequest
         $header      = substr($response, 0, $header_size);
         $body        = substr($response, $header_size);
         $httpCode    = $curl_info["http_code"];
+        if ($httpCode >= 400) {
+            throw new \Exception($body);
+        }
         return new HttpResponse($httpCode, $body, $header);
     }
-
 }
 
 ?>

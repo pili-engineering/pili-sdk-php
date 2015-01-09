@@ -1,5 +1,5 @@
 {
-    "name": "pili-io/pili-php",
+    "name": "pili-io/piliio-php",
     "type": "library",
     "description": "Pili Live Streaming Cloud Service SDK for PHP.",
     "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "m3u8"],
