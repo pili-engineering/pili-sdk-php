@@ -25,10 +25,9 @@ Alternatively, you can specify piliio-php as a dependency in your project's
 existing `composer.json` file:
 
 ```js
-
 {
     "require": {
-        pili-io/piliio-php": "dev-msater"
+        "pili-io/piliio-php": "dev-msater"
     }
 }
  ```
