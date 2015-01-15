@@ -14,7 +14,7 @@ try {
 
     $stream = $pili->createStream(array(
         'is_private' => false,                  # optional, default is false
-        'stream_key' => 'my stream secret key', # optional, like password, default is auto generated
+        'key' => 'my stream secret key', # optional, like password, default is auto generated
         'comment'    => 'a public streaming',   # optional, like a alias
     )); # => Array
 
@@ -41,15 +41,15 @@ try {
 
     // Signing a pushing url, then send it to the pusher client.
     $nonce = time();
-    $rtmpPushUrl = $pili->signPushUrl($rtmpPushUrl, $stream['stream_key'], $nonce); # => String
+    $rtmpPushUrl = $pili->signPushUrl($rtmpPushUrl, $stream['key'], $nonce); # => String
     // ...
 
     // If the stream is private, we need signing it.
     // Then send it to the player client.
     if (true === $stream['is_private']) {
         $expiry = time() + 3600;
-        $rtmpLiveUrl = $pili->signPlayUrl($rtmpLiveUrl, $stream['stream_key'], $expiry); # => String
-        $hlsLiveUrl = $pili->signPlayUrl($hlsLiveUrl, $stream['stream_key'], $expiry); # => String
+        $rtmpLiveUrl = $pili->signPlayUrl($rtmpLiveUrl, $stream['key'], $expiry); # => String
+        $hlsLiveUrl = $pili->signPlayUrl($hlsLiveUrl, $stream['key'], $expiry); # => String
     }
     // ...
 
@@ -69,7 +69,7 @@ try {
     $hlsPlayUrl = $pili->playStreamSegments($streamId, $startTime, $endTime); # => String
 
     if (true === $stream['is_private']) {
-        $hlsPlayUrl = $pili->signPlayUrl($hlsPlayUrl, $stream['stream_key'], $expiry); # => String
+        $hlsPlayUrl = $pili->signPlayUrl($hlsPlayUrl, $stream['key'], $expiry); # => String
     }
 
 } catch (Exception $e) {
