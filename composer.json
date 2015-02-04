@@ -1,13 +1,13 @@
 {
-    "name": "pili-io/piliio-php",
+    "name": "pili-io/pili-sdk-php",
     "type": "library",
-    "description": "Pili Live Streaming Cloud Service SDK for PHP.",
+    "description": "PILI Live Streaming Cloud Service SDK for PHP.",
     "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "m3u8"],
     "homepage": "https://github.com/pili-io",
     "license": "MIT",
     "authors": [
         {
-            "name": "Pili.io Engineering",
+            "name": "pili.io engineering",
             "homepage": "https://github.com/pili-io"
         }
     ],
