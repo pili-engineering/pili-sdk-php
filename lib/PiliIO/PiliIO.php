@@ -6,7 +6,7 @@ use PiliIO\HttpRequest;
 class PiliIO
 {
 
-    const VERSION      = '0.2.1';
+    const VERSION      = '0.2.2';
     const API_BASE_URL = 'http://api.pili.qiniu.com/v1/';
 
     private $accessKey;
@@ -95,7 +95,7 @@ class PiliIO
     {
         return array(
             'Content-Type'  => 'application/json',
-            'user-agent'    => Utils::getUserAgent(self::VERSION),
+            'User-Agent'    => Utils::getUserAgent(self::VERSION),
             'Authorization' => Utils::signRequest($this->accessKey, $this->secretKey, $url, $body),
         );
     }

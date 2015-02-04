@@ -12,17 +12,19 @@ $pili = new PiliIO($accessKey, $secretKey); # => Object
 // Create a new Stream
 try {
 
+    $stream = $pili->createStream();
+
+    /* or
+
     $stream = $pili->createStream(array(
-        'is_private' => false,                  # optional, default is false
-        'key' => 'my stream secret key', # optional, like password, default is auto generated
-        'comment'    => 'a public streaming',   # optional, like a alias
+        'is_private' => false,                    # optional, default is false
+        'key'        => 'stream secret key',      # optional, default is auto generated
+        'comment'    => 'name it or describe it', # optional, like a alias or description
     )); # => Array
 
-    // or
+     */
 
-    // $stream = $pili->createStream();
-
-    $streamId = $stream['id']; # It's the only thing should write to the database
+    $streamId = $stream['id']; # The only one should be to write the database
 
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), "\n";
