@@ -15,7 +15,7 @@ $pili = new Pili($accessKey, $secretKey); # => Object
 // Create a new stream
 try {
 
-    $hubName         = 'coding'; // requried, must be exists, replace with your <hubName>
+    $hubName         = 'myHub';  // requried, must be exists, replace with your <hubName>
     $title           = NULL;     // optional, default is auto-generated
     $publishKey      = NULL;     // optional, a secret key for signing the <publishToken>
     $publishSecurity = NULL;     // optional, can be "dynamic" or "static", default is "dynamic"
@@ -123,7 +123,7 @@ try {
 // List streams
 try {
 
-    $hubName = 'coding'; // requried
+    $hubName = 'myHub';  // requried
     $marker  = NULL;     // optional
     $limit   = NULL;     // optional
 
