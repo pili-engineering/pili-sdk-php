@@ -1,16 +1,14 @@
 <?php
-namespace PiliIO;
+namespace Pili;
 
-use PiliIO\HttpResponse;
+use Pili\HttpResponse;
 
 class HttpRequest
 {
 
     const DELETE = "DELETE";
-    const GET = "GET";
-    const POST = "POST";
-    const PUT = "PUT";
-    const PATCH = "PATCH";
+    const GET    = "GET";
+    const POST   = "POST";
 
     private static $verifyPeer = false;
     private static $socketTimeout = null;
@@ -108,7 +106,7 @@ class HttpRequest
 
     private static function getHeader($key, $val)
     {
-        $key = trim(strtolower($key));
+        $key = trim($key);
         return $key . ": " . $val;
     }
 
@@ -125,10 +123,10 @@ class HttpRequest
     {
         if ($headers == NULL)
             $headers = array();
-        $lowercaseHeaders = array();
+        $annexHeaders = array();
         $finalHeaders = array_merge($headers, self::$defaultHeaders);
         foreach ($finalHeaders as $key => $val) {
-            $lowercaseHeaders[] = self::getHeader($key, $val);
+            $annexHeaders[] = self::getHeader($key, $val);
         }
         $lowerCaseFinalHeaders = array_change_key_case($finalHeaders);
         $ch = curl_init();
@@ -153,7 +151,7 @@ class HttpRequest
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $lowercaseHeaders);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $annexHeaders);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, self::$verifyPeer);
         curl_setopt($ch, CURLOPT_ENCODING, ""); // If an empty string, "", is set, a header containing all supported encoding types is sent.
