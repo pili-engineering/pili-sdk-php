@@ -1,12 +1,12 @@
 <?php
 
-namespace PiliIO;
+namespace Pili;
 
 final class Utils
 {
 
     const USER_AGENT         = 'pili-sdk-php';
-    const DIGEST_AUTH_PREFIX = 'pili';
+    const DIGEST_AUTH_PREFIX = 'Qiniu';
 
     public static function getUserAgent($version)
     {
@@ -43,22 +43,32 @@ final class Utils
         return self::base64UrlEncode(self::digest($secret, $data));
     }
 
-    public static function signRequest($accessKey, $secretKey, $url, $body)
+    public static function signRequest($accessKey, $secretKey, $method, $url, $contentType, $body)
     {
         $url = parse_url($url);
         $data = '';
-        if (isset($url['path'])) {
-            $data = $url['path'];
+        if (!empty($url['path'])) {
+            $data = $method . ' ' . $url['path'];
         }
-        if (isset($url['query'])) {
+        if (!empty($url['query'])) {
             $data .= '?' . $url['query'];
         }
-        $data .= "\n";
-        if (isset($body) && strlen($body)) {
+        if (!empty($url['host'])) {
+            $data .= "\nHost: " . $url['host'];
+            if (isset($url['port'])) {
+                $data .= ':' . $url['port'];
+            }
+        }
+        if (!empty($body)) {
+            $data .= "\nContent-Type: " . $contentType;
+        }
+        $data .= "\n\n";
+        if (!empty($body)) {
             $data .= $body;
         }
         return self::DIGEST_AUTH_PREFIX . ' ' . $accessKey . ':' . self::sign($secretKey, $data);
     }
+
 }
 
 ?>

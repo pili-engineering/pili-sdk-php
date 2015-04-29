@@ -1,6 +1,6 @@
 <?php
 
-namespace PiliIO;
+namespace Pili;
 
 class HttpResponse
 {

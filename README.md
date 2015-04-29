@@ -1,6 +1,4 @@
-# PILI SDK for PHP
-
-The PILI SDK for PHP enables PHP developers to use Pili Live Streaming Cloud Services in their PHP code for building robust applications and software.
+# Pili SDK for PHP
 
 ## Requirements
 
@@ -54,7 +52,7 @@ $ git clone https://github.com/pili-io/pili-sdk-php.git
 And include it in your scripts:
 
 ```php
-require_once '/path/to/pili-sdk-php/lib/PiliIO.php';
+require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ```
 
 ## Install source from zip/tarball
@@ -72,139 +70,196 @@ $ wget https://github.com/pili-io/pili-sdk-php/tarball/master -O - | tar xzv
 And include it in your scripts:
 
 ```php
-require_once '/path/to/pili-sdk-php/lib/PiliIO.php';
+require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ```
 
 ## Usage
 
-```php
-// Instantiate an PiliIO client
-$pili = new PiliIO($accessKey, $secretKey); # => Object
-
-// Create a new Stream
-$stream = $pili->createStream();
-
-/* or
-
-$stream = $pili->createStream(array(
-    'is_private' => false,                    # optional, default is false
-    'key'        => 'stream secret key',      # optional, default is auto generated
-    'comment'    => 'name it or describe it', # optional, like a alias or description
-)); # => Array
-
-*/
-
-// List exist Streams
-$pili->listStreams(); # => Array
-
-// Query a Stream
-$pili->getStream($streamId); # => Array
-
-// Update a Stream
-$pili->setStream($streamId, array(
-    'is_private' => true,
-    'key'        => 'a new stream secret key',
-    'comment'    => 'a private streaming',
-)); # => Array
-
-// Delete a Stream
-$pili->delStream($streamId); # => NULL
-
-// Get Status on a Stream
-$pili->getStreamStatus($streamId); # => Array
-
-// Get recording segments from a Stream
-$pili->getStreamSegments($streamId, $startTime, $endTime); # => Array
-
-// Get the play url of those stream recording segments
-$pili->playStreamSegments($streamId, $startTime, $endTime); # => String
-
-// Delete recording segments on a Stream
-$pili->delStreamSegments($streamId, $startTime, $endTime); # => Array
-
-// Signing a push url
-$pili->signPushUrl($pushUrl, $streamKey, $nonce); # => String
-
-// Signing a private play url
-$pili->signPlayUrl($playUrl, $streamKey, $expiry); # => String
-
-```
-
-## Quick Example
+### Instantiate an Pili client:
 
 ```php
 // Replace with your keys
-$accessKey = 'YOUR_ACCESS_KEY';
-$secretKey = 'YOUR_SECRET_KEY';
+$pili = new Pili($accessKey, $secretKey); # => Object
+```
 
-// Instantiate an PiliIO client
-$pili = new PiliIO($accessKey, $secretKey); # => Object
 
-// Create a new Stream
+### Create a new Stream:
+
+```php
 try {
 
-    $stream = $pili->createStream();
+    $hubName         = 'myHub';  // requried, must be exists, replace with your <hubName>
+    $title           = NULL;     // optional, default is auto-generated
+    $publishKey      = NULL;     // optional, a secret key for signing the <publishToken>
+    $publishSecurity = NULL;     // optional, can be "dynamic" or "static", default is "dynamic"
 
-    /* or
-    $stream = $pili->createStream(array(
-        'is_private' => false,                    # optional, default is false
-        'key'        => 'stream secret key',      # optional, default is auto generated
-        'comment'    => 'name it or describe it', # optional, like a alias or description
-    )); # => Array
-     */
+    $stream = $pili->createStream($hubName, $title, $publishKey, $publishSecurity);
 
-    $streamId = $stream['id']; # The only one should be to write the database
-
+    echo "createStream() =>\n";
+    var_export($stream);
+    echo "\n\n";
 
 } catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    echo 'createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
 }
+```
 
-// Get an exist Stream
+
+### Generate a RTMP publish URL:
+
+```php
+$publishSecurity = 'dynamic'; // optional, can be "dynamic" or "static", default is "dynamic"
+$nonce           = 1;         // optional, for "dynamic" only, default is: time()
+
+$publishUrl = $pili->publishUrl($stream['id'], $stream['publishKey'], $publishSecurity, $nonce);
+
+echo "publishUrl() =>\n";
+echo $publishUrl;
+echo "\n\n";
+```
+
+
+### Generate RTMP live play URL:
+
+```php
+$rtmpPlayHost = 'live.z1.glb.pili.qiniucdn.com';  // required, replace with your customized domain
+$streamId     = $stream['id'];                    // required
+$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+
+$rtmpLiveUrl = $pili->rtmpLiveUrl($rtmpPlayHost, $streamId, $preset);
+
+echo "rtmpLiveUrl() =>\n";
+echo $rtmpLiveUrl;
+echo "\n\n";
+```
+
+
+### Generate HLS live play URL:
+
+```php
+$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
+$streamId     = $stream['id'];                   // required
+$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+
+$hlsLiveUrl = $pili->hlsLiveUrl($hlsPlayHost, $streamId, $preset);
+
+echo "hlsLiveUrl() =>\n";
+echo $hlsLiveUrl;
+echo "\n\n";
+```
+
+
+### Generate HLS playback URL:
+
+```php
+$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
+$streamId     = $stream['id'];                   // required
+$startTime    = time() - 3600;                   // required
+$endTime      = time();                          // required
+$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+
+$hlsPlaybackUrl = $pili->hlsPlaybackUrl($hlsPlayHost, $streamId, $startTime, $endTime, $preset);
+
+echo "hlsPlaybackUrl() =>\n";
+echo $hlsPlaybackUrl;
+echo "\n\n";
+```
+
+
+### Get an exist stream:
+
+```php
 try {
 
+    $streamId = $stream['id'];
     $stream = $pili->getStream($streamId); # => Array
 
-    // Live broadcasting URL
-    $rtmpPushUrl = $stream['push_url'][0]['RTMP'];
-    $rtmpLiveUrl = $stream['live_url']['[original]']['RTMP'];
-    $hlsLiveUrl  = $stream['live_url']['[original]']['HLS'];
-
-    // Signing a pushing url, then send it to the pusher client.
-    $nonce = time();
-    $rtmpPushUrl = $pili->signPushUrl($rtmpPushUrl, $stream['key'], $nonce); # => String
-    // ...
-
-    // If the stream is private, we need signing it.
-    // Then send it to the player client.
-    if (true === $stream['is_private']) {
-        $expiry = time() + 3600;
-        $rtmpLiveUrl = $pili->signPlayUrl($rtmpLiveUrl, $stream['key'], $expiry); # => String
-        $hlsLiveUrl = $pili->signPlayUrl($hlsLiveUrl, $stream['key'], $expiry); # => String
-    }
-    // ...
+    echo "getStream() =>\n";
+    var_export($stream);
+    echo "\n\n";
 
 } catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    echo "getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
+```
 
-// VOD
-// Get the play url of that stream recording segments
-// Then send it to the player client.
+
+### Update an exist stream:
+
+```php
 try {
 
-    $startTime = time() - 3600;
-    $endTime = time();
-    $expiry = time() + 3600;
+    $streamId        = $stream['id'];      // required
+    $publishKey      = '0de4308acc48056a'; // optional, a secret key for signing the <publishToken>
+    $publishSecurity = NULL;               // optional, can be "dynamic" or "static", default is "dynamic"
 
-    $hlsPlayUrl = $pili->playStreamSegments($streamId, $startTime, $endTime); # => String
+    $stream = $pili->setStream($streamId, $publishKey, $publishSecurity); # => Array
 
-    if (true === $stream['is_private']) {
-        $hlsPlayUrl = $pili->signPlayUrl($hlsPlayUrl, $stream['key'], $expiry); # => String
-    }
+    echo "setStream() =>\n";
+    var_export($stream);
+    echo "\n\n";
 
 } catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    echo "setStream() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
+```
 
+
+### List streams:
+
+```php
+try {
+
+    $hubName = 'coding'; // requried
+    $marker  = NULL;     // optional
+    $limit   = NULL;     // optional
+
+    $streams = $pili->listStreams($hubName, $marker, $limit); # => Array
+
+    echo "listStreams() =>\n";
+    var_export($streams);
+    echo "\n\n";
+
+} catch (Exception $e) {
+    echo "listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
+}
+```
+
+
+### Get recording segments from an exist stream:
+
+```php
+try {
+
+    $streamId  = $stream['id']; // required
+    $startTime = NULL;          // optional
+    $endTime   = NULL;          // optional
+
+    $segments = $pili->getStreamSegments($streamId, $startTime, $endTime); # => Array
+
+    echo "getStreamSegments() =>\n";
+    var_export($segments);
+    echo "\n\n";
+
+} catch (Exception $e) {
+    echo "getStreamSegments() failed. Caught exception: ",  $e->getMessage(), "\n";
+}
+```
+
+
+### Delete an exist stream:
+
+```php
+try {
+
+    $streamId  = $stream['id']; // required
+    $result = $pili->delStream($streamId); # => Array
+
+    echo "delStream() =>\n";
+    var_dump($result);
+    echo "\n\n";
+
+} catch (Exception $e) {
+    echo "delStream() failed. Caught exception: ",  $e->getMessage(), "\n";
+}
 ```
