@@ -75,7 +75,7 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 
 ## Usage
 
-Instantiate an Pili client:
+### Instantiate an Pili client:
 
 ```php
 // Replace with your keys
@@ -83,7 +83,7 @@ $pili = new Pili($accessKey, $secretKey); # => Object
 ```
 
 
-Create a new Stream:
+### Create a new Stream:
 
 ```php
 try {
@@ -105,7 +105,7 @@ try {
 ```
 
 
-Generate a publish url:
+### Generate a publish url:
 
 ```php
 $publishSecurity = 'dynamic'; // optional, can be "dynamic" or "static", default is "dynamic"
@@ -119,7 +119,7 @@ echo "\n\n";
 ```
 
 
-Generate RTMP live play URL:
+### Generate RTMP live play URL:
 
 ```php
 $rtmpPlayHost = 'live.z1.glb.pili.qiniucdn.com';  // required
@@ -134,7 +134,7 @@ echo "\n\n";
 ```
 
 
-Generate HLS live play URL:
+### Generate HLS live play URL:
 
 ```php
 $hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required
@@ -149,7 +149,7 @@ echo "\n\n";
 ```
 
 
-Generate HLS playback URL:
+### Generate HLS playback URL:
 
 ```php
 $hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required
@@ -166,7 +166,7 @@ echo "\n\n";
 ```
 
 
-Get an exist stream:
+### Get an exist stream:
 
 ```php
 try {
@@ -184,7 +184,7 @@ try {
 ```
 
 
-Update an exist stream:
+### Update an exist stream:
 
 ```php
 try {
@@ -205,7 +205,7 @@ try {
 ```
 
 
-List streams:
+### List streams:
 
 ```php
 try {
@@ -226,7 +226,7 @@ try {
 ```
 
 
-Get recording segments from an exist stream:
+### Get recording segments from an exist stream:
 
 ```php
 try {
@@ -247,7 +247,7 @@ try {
 ```
 
 
-Delete an exist stream:
+### Delete an exist stream:
 
 ```php
 try {
