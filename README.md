@@ -105,7 +105,7 @@ try {
 ```
 
 
-### Generate a publish url:
+### Generate a RTMP publish URL:
 
 ```php
 $publishSecurity = 'dynamic'; // optional, can be "dynamic" or "static", default is "dynamic"
