@@ -45,7 +45,7 @@ echo "\n\n";
 
 
 // Generate RTMP live play URL
-$rtmpPlayHost = 'live.z1.glb.pili.qiniucdn.com';  // required
+$rtmpPlayHost = 'live.z1.glb.pili.qiniucdn.com';  // required, replace with your customized domain
 $streamId     = $stream['id'];                    // required
 $preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
 
@@ -58,7 +58,7 @@ echo "\n\n";
 
 
 // Generate HLS live play URL
-$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required
+$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
 $streamId     = $stream['id'];                   // required
 $preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
 
@@ -71,7 +71,7 @@ echo "\n\n";
 
 
 // Generate HLS playback URL
-$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required
+$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
 $streamId     = $stream['id'];                   // required
 $startTime    = time() - 3600;                   // required
 $endTime      = time();                          // required
