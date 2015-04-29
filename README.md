@@ -1,4 +1,4 @@
-# Pili Live Streaming Service server-side library for PHP
+# Pili server-side library for PHP
 
 ## Requirements
 
