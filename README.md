@@ -108,10 +108,12 @@ try {
 ### Generate a RTMP publish URL
 
 ```php
-$publishSecurity = 'dynamic'; // optional, can be "dynamic" or "static", default is "dynamic"
-$nonce           = 1;         // optional, for "dynamic" only, default is: time()
+$streamId        = $stream['id'];         // required
+$publishKey      = $stream['publishKey']; // required
+$publishSecurity = 'dynamic';             // optional, can be "dynamic" or "static", default is "dynamic"
+$nonce           = 1;                     // optional, for "dynamic" only, default is: time()
 
-$publishUrl = $pili->publishUrl($stream['id'], $stream['publishKey'], $publishSecurity, $nonce);
+$publishUrl = $pili->publishUrl($streamId, $publishKey, $publishSecurity, $nonce);
 
 echo "publishUrl() =>\n";
 echo $publishUrl;
