@@ -144,9 +144,10 @@ class Pili
         if(empty($nonce)) {
             $nonce = time();
         }
-        $baseUrl = $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $this->_resolvePath($streamId) . '?nonce=' . $nonce;
-        $publishToken = Utils::sign($publishKey, $baseUrl);
-        return $baseUrl . '&token=' . $publishToken;
+        $baseUri = $this->_resolvePath($streamId) . '?nonce=' . $nonce;
+        $publishToken = Utils::sign($publishKey, $baseUri);
+        $baseUrl = $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $baseUri . '&token=' . $publishToken;
+        return $baseUrl;
     }
 
 
