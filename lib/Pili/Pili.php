@@ -118,7 +118,7 @@ class Pili
                 $url = $this->_buildDynamicUrl($streamId, $publishKey, $nonce, $scheme);
                 break;
             case 'static':
-                $url = $this->_buildStaticUrl($streamId, $PublishKey, $scheme);
+                $url = $this->_buildStaticUrl($streamId, $publishKey, $scheme);
                 break;
             default:
                 $url = $this->_buildDynamicUrl($streamId, $publishKey, $nonce, $scheme);
@@ -134,9 +134,9 @@ class Pili
         return $baseUri;
     }
 
-    private function _buildStaticUrl($streamId, $PublishKey, $scheme)
+    private function _buildStaticUrl($streamId, $publishKey, $scheme)
     {
-        return $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $this->_resolvePath($streamId) . '?key=' . $PublishKey;
+        return $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $this->_resolvePath($streamId) . '?key=' . $publishKey;
     }
 
     private function _buildDynamicUrl($streamId, $publishKey, $nonce, $scheme)
