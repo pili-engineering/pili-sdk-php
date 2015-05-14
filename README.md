@@ -84,11 +84,11 @@ define('RTMP_PLAY_HOST', 'xxx.live1.z1.pili.qiniucdn.com');
 define('HLS_PLAY_HOST', 'xxx.hls1.z1.pili.qiniucdn.com');
 
 // Replace with your keys here
-define('ACCESS_KEY', 'YOUR_ACCESS_KEY');
-define('SECRET_KEY', 'YOUR_SECRET_KEY');
+define('ACCESS_KEY', 'QiniuAccessKey');
+define('SECRET_KEY', 'QiniuSecretKey');
 
 // Replace with your hub name
-define('HUB', 'myHubName');
+define('HUB', 'hubName');
 ```
 
 
