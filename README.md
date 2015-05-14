@@ -75,11 +75,28 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 
 ## Usage
 
+### Configuration
+
+```php
+// Replace with your customized domains
+define('RTMP_PUBLISH_HOST', 'xxx.pub.z1.pili.qiniup.com');
+define('RTMP_PLAY_HOST', 'xxx.live1.z1.pili.qiniucdn.com');
+define('HLS_PLAY_HOST', 'xxx.hls1.z1.pili.qiniucdn.com');
+
+// Replace with your keys here
+define('ACCESS_KEY', 'YOUR_ACCESS_KEY');
+define('SECRET_KEY', 'YOUR_SECRET_KEY');
+
+// Replace with your hub name
+define('HUB', 'myHubName');
+```
+
+
 ### Instantiate an Pili client
 
 ```php
 // Replace with your keys
-$pili = new Pili($accessKey, $secretKey); # => Object
+$pili = new Pili(ACCESS_KEY, SECRET_KEY); # => Object
 ```
 
 
@@ -88,12 +105,11 @@ $pili = new Pili($accessKey, $secretKey); # => Object
 ```php
 try {
 
-    $hubName         = 'myHub';  // requried, must be exists, replace with your <hubName>
     $title           = NULL;     // optional, default is auto-generated
     $publishKey      = NULL;     // optional, a secret key for signing the <publishToken>
     $publishSecurity = NULL;     // optional, can be "dynamic" or "static", default is "dynamic"
 
-    $stream = $pili->createStream($hubName, $title, $publishKey, $publishSecurity);
+    $stream = $pili->createStream(HUB, $title, $publishKey, $publishSecurity);
 
     echo "createStream() =>\n";
     var_export($stream);
@@ -113,7 +129,7 @@ $publishKey      = $stream['publishKey']; // required
 $publishSecurity = 'dynamic';             // optional, can be "dynamic" or "static", default is "dynamic"
 $nonce           = 1;                     // optional, for "dynamic" only, default is: time()
 
-$publishUrl = $pili->publishUrl($streamId, $publishKey, $publishSecurity, $nonce);
+$publishUrl = $pili->publishUrl(RTMP_PUBLISH_HOST, $streamId, $publishKey, $publishSecurity, $nonce);
 
 echo "publishUrl() =>\n";
 echo $publishUrl;
@@ -124,11 +140,10 @@ echo "\n\n";
 ### Generate RTMP live play URL
 
 ```php
-$rtmpPlayHost = 'live.z1.glb.pili.qiniucdn.com';  // required, replace with your customized domain
-$streamId     = $stream['id'];                    // required
-$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+$streamId     = $stream['id']; // required
+$preset       = NULL;          // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
 
-$rtmpLiveUrl = $pili->rtmpLiveUrl($rtmpPlayHost, $streamId, $preset);
+$rtmpLiveUrl = $pili->rtmpLiveUrl(RTMP_PLAY_HOST, $streamId, $preset);
 
 echo "rtmpLiveUrl() =>\n";
 echo $rtmpLiveUrl;
@@ -139,11 +154,10 @@ echo "\n\n";
 ### Generate HLS live play URL
 
 ```php
-$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
-$streamId     = $stream['id'];                   // required
-$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+$streamId     = $stream['id']; // required
+$preset       = NULL;          // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
 
-$hlsLiveUrl = $pili->hlsLiveUrl($hlsPlayHost, $streamId, $preset);
+$hlsLiveUrl = $pili->hlsLiveUrl(HLS_PLAY_HOST, $streamId, $preset);
 
 echo "hlsLiveUrl() =>\n";
 echo $hlsLiveUrl;
@@ -154,13 +168,12 @@ echo "\n\n";
 ### Generate HLS playback URL
 
 ```php
-$hlsPlayHost  = 'hls1.z1.glb.pili.qiniuapi.com'; // required, replace with your customized domain
-$streamId     = $stream['id'];                   // required
-$startTime    = time() - 3600;                   // required
-$endTime      = time();                          // required
-$preset       = NULL; // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
+$streamId     = $stream['id']; // required
+$startTime    = time() - 3600; // required
+$endTime      = time();        // required
+$preset       = NULL;          // optional, just like '720p', '480p', '360p', '240p'. Presets should be defined first.
 
-$hlsPlaybackUrl = $pili->hlsPlaybackUrl($hlsPlayHost, $streamId, $startTime, $endTime, $preset);
+$hlsPlaybackUrl = $pili->hlsPlaybackUrl(HLS_PLAY_HOST, $streamId, $startTime, $endTime, $preset);
 
 echo "hlsPlaybackUrl() =>\n";
 echo $hlsPlaybackUrl;
@@ -212,11 +225,10 @@ try {
 ```php
 try {
 
-    $hubName = 'myHub'; // requried
-    $marker  = NULL;    // optional
-    $limit   = NULL;    // optional
+    $marker  = NULL;     // optional
+    $limit   = NULL;     // optional
 
-    $streams = $pili->listStreams($hubName, $marker, $limit); # => Array
+    $streams = $pili->listStreams(HUB, $marker, $limit); # => Array
 
     echo "listStreams() =>\n";
     var_export($streams);
