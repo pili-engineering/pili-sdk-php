@@ -59,7 +59,7 @@ final class Utils
                 $data .= ':' . $url['port'];
             }
         }
-        if (!empty($body)) {
+        if (!empty($contentType)) {
             $data .= "\nContent-Type: " . $contentType;
         }
         $data .= "\n\n";

@@ -6,10 +6,9 @@ use Pili\HttpRequest;
 class Pili
 {
 
-    const VERSION                   = '1.0.1';
+    const VERSION                   = '1.0.2';
     const API_BASE_URL              = 'http://pili.qiniuapi.com/v1/';
     const CONTENT_TYPE              = 'application/json';
-    const DEFAULT_RTMP_PUBLISH_HOST = 'pub.z1.glb.pili.qiniup.com';
 
     private $_accessKey;
     private $_secretKey;
@@ -96,9 +95,7 @@ class Pili
             'User-Agent'    => $userAgent,
             'Authorization' => $authorization,
         );
-        if (!empty($body)) {
-            $headers = array_merge($headers, array('Content-Type' => self::CONTENT_TYPE));
-        }
+        $headers = array_merge($headers, array('Content-Type' => self::CONTENT_TYPE));
         return $headers;
     }
 
@@ -111,17 +108,17 @@ class Pili
 
 
 
-    public function publishUrl($streamId, $publishKey, $publishSecurity = NULL, $nonce = NULL, $scheme = 'rtmp')
+    public function publishUrl($rtmpPubHost, $streamId, $publishKey, $publishSecurity = NULL, $nonce = NULL, $scheme = 'rtmp')
     {
         switch ($publishSecurity) {
             case 'dynamic':
-                $url = $this->_buildDynamicUrl($streamId, $publishKey, $nonce, $scheme);
+                $url = $this->_buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme);
                 break;
             case 'static':
-                $url = $this->_buildStaticUrl($streamId, $publishKey, $scheme);
+                $url = $this->_buildStaticUrl($rtmpPubHost, $streamId, $publishKey, $scheme);
                 break;
             default:
-                $url = $this->_buildDynamicUrl($streamId, $publishKey, $nonce, $scheme);
+                $url = $this->_buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme);
                 break;
         }
         return $url;
@@ -134,19 +131,19 @@ class Pili
         return $baseUri;
     }
 
-    private function _buildStaticUrl($streamId, $publishKey, $scheme)
+    private function _buildStaticUrl($rtmpPubHost, $streamId, $publishKey, $scheme)
     {
-        return $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $this->_resolvePath($streamId) . '?key=' . $publishKey;
+        return $scheme . '://' . $rtmpPubHost . $this->_resolvePath($streamId) . '?key=' . $publishKey;
     }
 
-    private function _buildDynamicUrl($streamId, $publishKey, $nonce, $scheme)
+    private function _buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme)
     {
         if(empty($nonce)) {
             $nonce = time();
         }
         $baseUri = $this->_resolvePath($streamId) . '?nonce=' . $nonce;
         $publishToken = Utils::sign($publishKey, $baseUri);
-        $baseUrl = $scheme . '://' . self::DEFAULT_RTMP_PUBLISH_HOST . $baseUri . '&token=' . $publishToken;
+        $baseUrl = $scheme . '://' . $rtmpPubHost . $baseUri . '&token=' . $publishToken;
         return $baseUrl;
     }
 
