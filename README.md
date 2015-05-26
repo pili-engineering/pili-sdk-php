@@ -142,8 +142,8 @@ try {
 ### Generate a RTMP publish URL
 
 ```php
-$streamId        = $stream['id'];         // required
-$publishKey      = $stream['publishKey']; // required
+$streamId        = $stream['id'];               // required
+$publishKey      = $stream['publishKey'];       // required
 $publishSecurity = $stream['$publishSecurity']; // optional, can be "dynamic" or "static", default is "dynamic"
 $nonce           = time();                      // optional, for "dynamic" only, default is: time()
 
@@ -224,7 +224,7 @@ try {
     $streamId        = $stream['id'];      // required
     $publishKey      = '0de4308acc48056a'; // optional, a secret key for signing the <publishToken>
     $publishSecurity = NULL;               // optional, can be "dynamic" or "static", default is "dynamic"
-    $disabled        = NULL;               // optional, cab be "true" of "false"
+    $disabled        = NULL;               // optional, can be "true" of "false"
 
     $stream = $pili->setStream($streamId, $publishKey, $publishSecurity, $disabled); # => Array
 
