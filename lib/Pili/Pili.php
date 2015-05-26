@@ -6,7 +6,7 @@ use Pili\HttpRequest;
 class Pili
 {
 
-    const VERSION                   = '1.0.2';
+    const VERSION                   = '1.1.0';
     const API_BASE_URL              = 'http://pili.qiniuapi.com/v1/';
     const CONTENT_TYPE              = 'application/json';
 
@@ -42,7 +42,13 @@ class Pili
         return $this->_request(HttpRequest::GET, $url);
     }
 
-    public function setStream($streamId, $publishKey = NULL, $publishSecurity = NULL)
+    public function getStreamStatus($streamId)
+    {
+        $url  = self::API_BASE_URL . "streams/$streamId/status";
+        return $this->_request(HttpRequest::GET, $url);
+    }
+
+    public function setStream($streamId, $publishKey = NULL, $publishSecurity = NULL, $disabled = NULL)
     {
         $url  = self::API_BASE_URL . "streams/$streamId";
         $params = array();
@@ -51,6 +57,9 @@ class Pili
         }
         if (!empty($publishSecurity)) {
             $params = array_merge($params, array('publishSecurity' => $publishSecurity));
+        }
+        if (!empty($disabled)) {
+            $params = array_merge($params, array('disabled' => $disabled));
         }
         $body = json_encode($params);
         $body = empty($body) ? '{}' : $body;
