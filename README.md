@@ -1,4 +1,4 @@
-# Pili server-side library for PHP
+# Pili Streaming Cloud server-side library for PHP
 
 ## Features
 

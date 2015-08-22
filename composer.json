@@ -1,8 +1,8 @@
 {
     "name": "pili-engineering/pili-sdk-php",
     "type": "library",
-    "description": "Pili Live Streaming Service server-side library for PHP.",
-    "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "hdl", "hds", "dash"],
+    "description": "Pili Streaming Cloud server-side library for PHP.",
+    "keywords": ["web-service", "rtmp", "hls", "hdl", "hds", "dash", "streaming", "pili", "qiniu", "cloud"],
     "homepage": "https://github.com/pili-engineering/pili-sdk-php",
     "license": "MIT",
     "authors": [
