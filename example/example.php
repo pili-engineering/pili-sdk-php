@@ -400,7 +400,7 @@ array (
 // Snapshot Stream
 try {
 
-    $name      = 'imageName'; // required
+    $name      = 'imageName.jpg'; // required
     $format    = 'jpg';       // required
     $time      = 1440196100;  // optional, in second, unix timestamp
     $notifyUrl = NULL;        // optional
@@ -416,7 +416,7 @@ try {
 }
 /*
 array (
-  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName',
+  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899a',
 )
 */
@@ -425,11 +425,11 @@ array (
 // Save Stream as a file
 try {
 
-    $name      = 'videoName'; // required
-    $format    = 'mp4';       // required
-    $start     = 1440196065;  // required, in second, unix timestamp
-    $end       = 1440196105;  // required, in second, unix timestamp
-    $notifyUrl = NULL;        // optional
+    $name      = 'videoName.mp4'; // required
+    $format    = 'mp4';           // required
+    $start     = 1440196065;      // required, in second, unix timestamp
+    $end       = 1440196105;      // required, in second, unix timestamp
+    $notifyUrl = NULL;            // optional
 
     $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl = NULL); # => Array
 
@@ -443,10 +443,11 @@ try {
 /*
 array (
   'url' => 'http://iuel7l.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.m3u8',
-  'targetUrl' => 'http://iuel7l.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName',
+  'targetUrl' => 'http://iuel7l.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.mp4',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899b',
 )
 */
+// curl -D GET http://api.qiniu.com/status/get/prefop?id={persistentId}
 
 
 // Delete a Stream

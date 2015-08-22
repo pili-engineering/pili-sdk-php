@@ -1,4 +1,4 @@
-# Pili server-side library for PHP
+# Pili Streaming Cloud server-side library for PHP
 
 ## Features
 
@@ -32,7 +32,7 @@
         - [Instantiate a Pili client](#Instantiate-a-Pili-client)
         - [Create a new Stream](#Create-a-new-Stream)
         - [Get a Stream](#Get-a-Stream)
-        - [List streams](#List-streams)
+        - [List Stream](#List-streams)
     - [Stream](#Stream)
         - [To JSON string](#To-JSON-string)
         - [Update a Stream](#Update-a-Stream)
@@ -277,7 +277,7 @@ Pili\Stream::__set_state(array(
 */
 ```
 
-#### List streams
+#### List Stream
 
 ```php
 try {
@@ -562,10 +562,10 @@ array (
 ```php
 try {
 
-    $name      = 'imageName'; // required
-    $format    = 'jpg';       // required
-    $time      = 1440196100;  // optional, in second, unix timestamp
-    $notifyUrl = NULL;        // optional
+    $name      = 'imageName.jpg'; // required
+    $format    = 'jpg';           // required
+    $time      = 1440196100;      // optional, in second, unix timestamp
+    $notifyUrl = NULL;            // optional
 
     $result = $stream->snapshot($name, $format, $time, $notifyUrl); # => Array
 
@@ -578,7 +578,7 @@ try {
 }
 /*
 array (
-  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName',
+  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899a',
 )
 */
@@ -589,11 +589,11 @@ array (
 ```php
 try {
 
-    $name      = 'videoName'; // required
-    $format    = 'mp4';       // required
-    $start     = 1440196065;  // required, in second, unix timestamp
-    $end       = 1440196105;  // required, in second, unix timestamp
-    $notifyUrl = NULL;        // optional
+    $name      = 'videoName.mp4'; // required
+    $format    = 'mp4';           // required
+    $start     = 1440196065;      // required, in second, unix timestamp
+    $end       = 1440196105;      // required, in second, unix timestamp
+    $notifyUrl = NULL;            // optional
 
     $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl = NULL); # => Array
 
@@ -607,13 +607,13 @@ try {
 /*
 array (
   'url' => 'http://iuel7l.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.m3u8',
-  'targetUrl' => 'http://iuel7l.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName',
+  'targetUrl' => 'http://iuel7l.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.mp4',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899b',
 )
 */
 ```
 
-You can get saving state via Qiniu FOP Service using persistentId.  
+You can get processing state via Qiniu FOP Service using persistentId.  
 API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`  
 Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
 
