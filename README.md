@@ -30,24 +30,24 @@
     - [Configuration](#Configuration)
     - [Client](#Client)
         - [Instantiate a Pili client](#Instantiate-a-Pili-client)
-        - [Create a new stream](#Create-a-new-stream)
-        - [Get an exist stream](#Get-an-exist-stream)
+        - [Create a new Stream](#Create-a-new-Stream)
+        - [Get a Stream](#Get-a-Stream)
         - [List streams](#List-streams)
     - [Stream](#Stream)
         - [To JSON string](#To-JSON-string)
-        - [Update a stream](#Update-a-stream)
-        - [Disable a stream](#Disable-a-stream)
-        - [Enable a stream](#Enable-a-stream)
-        - [Get stream status](#Get-stream-status)
+        - [Update a Stream](#Update-a-Stream)
+        - [Disable a Stream](#Disable-a-Stream)
+        - [Enable a Stream](#Enable-a-Stream)
+        - [Get Stream status](#Get-Stream-status)
         - [Generate RTMP publish URL](#Generate-RTMP-publish-URL)
         - [Generate RTMP live play URLs](#Generate-RTMP-live-play-URLs)
         - [Generate HLS play URLs](Generate-HLS-play-URLs)
         - [Generate Http-Flv live play URLs](Generate-Http-Flv-live-play-URLs)
-        - [Get stream segments](#Get-stream-segments)
+        - [Get Stream segments](#Get-Stream-segments)
         - [Generate HLS playback URLs](Generate-HLS-playback-URLs)
-        - [Snapshot from a live streaming](#Snapshot-from-a-live-streaming)
-        - [Save stream as a file](#Save-stream-as-a-file)
-        - [Delete a stream](Delete-a-stream)
+        - [Snapshot Stream](#Snapshot-Stream)
+        - [Save Stream as a file](#Save-Stream-as-a-file)
+        - [Delete a Stream](Delete-a-stream)
 - [History](#History)
 
 
@@ -151,7 +151,7 @@ $client = new Pili(ACCESS_KEY, SECRET_KEY, HUB); # => Object
 // $client->config('API_HOST', 'pili-lte.qiniuapi.com');
 ```
 
-#### Create a new stream
+#### Create a new Stream
 
 ```php
 try {
@@ -223,7 +223,7 @@ Pili\Stream::__set_state(array(
 */
 ```
 
-#### Get an exist stream
+#### Get a Stream
 
 ```php
 try {
@@ -340,7 +340,7 @@ echo "\n\n";
 */
 ```
 
-### Update a stream
+### Update a Stream
 
 ```php
 try {
@@ -396,7 +396,7 @@ Pili\Stream::__set_state(array(
 */
 ```
 
-#### Disable a stream
+#### Disable a Stream
 
 ```php
 $stream = $stream->disable(); # => Stream Object
@@ -408,7 +408,7 @@ true
 */
 ```
 
-#### Enable a stream
+#### Enable a Stream
 
 ```php
 $stream = $stream->enable(); # => Stream Object
@@ -420,7 +420,7 @@ false
 */
 ```
 
-#### Get stream status
+#### Get Stream status
 
 ```php
 try {
@@ -503,7 +503,7 @@ array (
 */
 ```
 
-#### Get stream segments
+#### Get Stream segments
 
 ```php
 try {
@@ -557,7 +557,7 @@ array (
 */
 ```
 
-#### Snapshot from a live streaming
+#### Snapshot Stream
 
 ```php
 try {
@@ -618,7 +618,7 @@ API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`
 Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
 
 
-#### Delete a stream
+#### Delete a Stream
 
 ```php
 try {
