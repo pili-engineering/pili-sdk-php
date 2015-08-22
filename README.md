@@ -162,7 +162,7 @@ try {
 
     $stream = $client->createStream($title, $publishKey, $publishSecurity); # => Stream Object
 
-    echo "createStream() =>\n";
+    echo "Client createStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
@@ -183,7 +183,7 @@ try {
     */
 
 } catch (Exception $e) {
-    echo 'createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
+    echo 'Client createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
@@ -232,12 +232,12 @@ try {
 
     $stream = $client->getStream($streamId); # => Stream Object
 
-    echo "getStream() =>\n";
+    echo "Client getStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Client getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
@@ -288,12 +288,12 @@ try {
 
     $result = $client->listStreams($marker, $limit, $title_prefix); # => Array
 
-    echo "listStreams() =>\n";
+    echo "Client listStreams() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Client listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -313,7 +313,7 @@ array (
 
 ```php
 $result = $stream->toJSONString(); # => string
-echo "stream.toJSONString() =>\n";
+echo "Stream toJSONString() =>\n";
 var_export($result);
 echo "\n\n";
 /*
@@ -351,12 +351,12 @@ try {
 
     $stream = $stream->update(); # => Stream Object
 
-    echo "stream.update() =>\n";
+    echo "Stream update() =>\n";
     var_export($stream);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "stream.update() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream update() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
@@ -400,7 +400,7 @@ Pili\Stream::__set_state(array(
 
 ```php
 $stream = $stream->disable(); # => Stream Object
-echo "stream.disable() =>\n";
+echo "Stream disable() =>\n";
 var_export($stream->disabled);
 echo "\n\n";
 /*
@@ -412,7 +412,7 @@ true
 
 ```php
 $stream = $stream->enable(); # => Stream Object
-echo "stream.enable() =>\n";
+echo "Stream enable() =>\n";
 var_export($stream->disabled);
 echo "\n\n";
 /*
@@ -427,12 +427,12 @@ try {
 
     $result = $stream->status(); # => Array
 
-    echo "stream.status() =>\n";
+    echo "Stream status() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "stream.status() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream status() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -453,7 +453,7 @@ array (
 
 ```php
 $publishUrl = $stream->rtmpPublishUrl();
-echo "stream.rtmpPublishUrl() =>\n";
+echo "Stream rtmpPublishUrl() =>\n";
 echo $publishUrl;
 echo "\n\n";
 /*
@@ -465,7 +465,7 @@ rtmp://iuel7l.publish.z1.pili.qiniup.com/coding/55d7a219e3ba5723280000b5?key=new
 
 ```php
 $urls = $stream->rtmpLiveUrls();
-echo "stream.rtmpLiveUrls() =>\n";
+echo "Stream rtmpLiveUrls() =>\n";
 var_export($urls);
 echo "\n\n";
 /*
@@ -479,7 +479,7 @@ array (
 
 ```php
 $urls = $stream->hlsLiveUrls();
-echo "stream.hlsLiveUrls() =>\n";
+echo "Stream hlsLiveUrls() =>\n";
 var_export($urls);
 echo "\n\n";
 /*
@@ -493,7 +493,7 @@ array (
 
 ```php
 $urls = $stream->httpFlvLiveUrls();
-echo "stream.httpFlvLiveUrls() =>\n";
+echo "Stream httpFlvLiveUrls() =>\n";
 var_export($urls);
 echo "\n\n";
 /*
@@ -514,12 +514,12 @@ try {
 
     $result = $stream->segments($start, $end, $limit); # => Array
 
-    echo "stream.segments() =>\n";
+    echo "Stream segments() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "getStreamSegments() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream segments() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -547,7 +547,7 @@ $start     = 1440196065;  // required, in second, unix timestamp
 $end       = 1440196105;  // required, in second, unix timestamp
 
 $urls = $stream->hlsPlaybackUrls($start, $end);
-echo "stream.hlsPlaybackUrls() =>\n";
+echo "Stream hlsPlaybackUrls() =>\n";
 var_export($urls);
 echo "\n\n";
 /*
@@ -569,12 +569,12 @@ try {
 
     $result = $stream->snapshot($name, $format, $time, $notifyUrl); # => Array
 
-    echo "stream.snapshot() =>\n";
+    echo "Stream snapshot() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "stream.snapshot() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream snapshot() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -597,12 +597,12 @@ try {
 
     $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl = NULL); # => Array
 
-    echo "stream.saveAs() =>\n";
+    echo "Stream saveAs() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "stream.saveAs() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream saveAs() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -613,16 +613,21 @@ array (
 */
 ```
 
+You can get saving state via Qiniu FOP Service using persistentId.  
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`  
+Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
+
+
 #### Delete a stream
 
 ```php
 try {
     $result = $stream->delete(); # => NULL
-    echo "stream.delete() =>\n";
+    echo "Stream delete() =>\n";
     var_dump($result);
     echo "\n\n";
 } catch (Exception $e) {
-    echo "stream.delete() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "Stream delete() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 NULL
