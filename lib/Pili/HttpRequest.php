@@ -5,7 +5,6 @@ use Pili\HttpResponse;
 
 class HttpRequest
 {
-
     const DELETE = "DELETE";
     const GET    = "GET";
     const POST   = "POST";
@@ -175,5 +174,4 @@ class HttpRequest
         return new HttpResponse($httpCode, $body, $header);
     }
 }
-
 ?>

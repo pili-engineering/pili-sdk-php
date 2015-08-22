@@ -1,201 +1,50 @@
 <?php
 
+use Pili\Conf;
 use Pili\Utils;
 use Pili\HttpRequest;
+use Pili\Auth;
+use Pili\Api;
+use Pili\Stream;
 
 class Pili
 {
+    private $_auth;
+    private $_hub;
 
-    const VERSION                   = '1.1.0';
-    const API_BASE_URL              = 'http://pili.qiniuapi.com/v1/';
-    const CONTENT_TYPE              = 'application/json';
-
-    private $_accessKey;
-    private $_secretKey;
-
-    public function __construct($accessKey, $secretKey)
+    public function __construct($accessKey, $secretKey, $hubName)
     {
-        $this->_accessKey = $accessKey;
-        $this->_secretKey = $secretKey;
+        $this->_auth = new Auth($accessKey, $secretKey);
+        $this->_hub  = $hubName;
     }
 
-    public function createStream($hubName, $title = NULL, $publishKey = NULL, $publishSecurity = NULL)
+    public function config($property, $value)
     {
-        $url = self::API_BASE_URL . 'streams';
-        $params = array('hub' => $hubName);
-        if (!empty($title)) {
-            $params = array_merge($params, array('title' => $title));
-        }
-        if (!empty($publishKey)) {
-            $params = array_merge($params, array('publishKey' => $publishKey));
-        }
-        if (!empty($publishSecurity)) {
-            $params = array_merge($params, array('publishSecurity' => $publishSecurity));
-        }
-        $body = json_encode($params);
-        return $this->_request(HttpRequest::POST, $url, $body);
+        Conf::getInstance()->$property = $value;
+    }
+
+    public function createStream($title = NULL, $publishKey = NULL, $publishSecurity = NULL)
+    {
+        $stream = Api::createStream($this->_auth, $this->_hub, $title, $publishKey, $publishSecurity);
+        return new Stream($this->_auth, $stream);
     }
 
     public function getStream($streamId)
     {
-        $url  = self::API_BASE_URL . "streams/$streamId";
-        return $this->_request(HttpRequest::GET, $url);
+        $stream = Api::getStream($this->_auth, $streamId);
+        return new Stream($this->_auth, $stream);
     }
 
-    public function getStreamStatus($streamId)
+    public function listStreams($marker = NULL, $limit = NULL, $title_prefix = NULL)
     {
-        $url  = self::API_BASE_URL . "streams/$streamId/status";
-        return $this->_request(HttpRequest::GET, $url);
-    }
-
-    public function setStream($streamId, $publishKey = NULL, $publishSecurity = NULL, $disabled = NULL)
-    {
-        $url  = self::API_BASE_URL . "streams/$streamId";
-        $params = array();
-        if (!empty($publishKey)) {
-            $params = array_merge($params, array('publishKey' => $publishKey));
+        $result = Api::listStreams($this->_auth, $this->_hub, $marker, $limit, $title_prefix);
+        $streams = $result["items"];
+        foreach ($streams as &$stream) {
+            $stream = new Stream($this->_auth, $stream);
         }
-        if (!empty($publishSecurity)) {
-            $params = array_merge($params, array('publishSecurity' => $publishSecurity));
-        }
-        if (!empty($disabled)) {
-            $params = array_merge($params, array('disabled' => $disabled));
-        }
-        $body = json_encode($params);
-        $body = empty($body) ? '{}' : $body;
-        return $this->_request(HttpRequest::POST, $url, $body);
+        $result["items"] = $streams;
+        unset($stream);
+        return $result;
     }
-
-    public function listStreams($hubName, $marker = NULL, $limit = NULL)
-    {
-        $url = self::API_BASE_URL . "streams?hub=$hubName";
-        if (!empty($marker)) {
-            $url .= "&marker=$marker";
-        }
-        if (!empty($limit)) {
-            $url .= "&limit=$limit";
-        }
-        return $this->_request(HttpRequest::GET, $url);
-    }
-
-    public function getStreamSegments($streamId, $startTime = NULL, $endTime = NULL)
-    {
-        $url  = self::API_BASE_URL . "streams/$streamId/segments";
-        if (!empty($startTime)) {
-            $url .= "?start=$startTime";
-        }
-        if (!empty($endTime)) {
-            $url .= "&end=$endTime";
-        }
-        return $this->_request(HttpRequest::GET, $url);
-    }
-
-    public function delStream($streamId)
-    {
-        $url  = self::API_BASE_URL . "streams/$streamId";
-        return $this->_request(HttpRequest::DELETE, $url);
-    }
-
-    private function _setHeaders($method, $url, $body = NULL)
-    {
-        $userAgent     = Utils::getUserAgent(self::VERSION);
-        $authorization = Utils::signRequest($this->_accessKey, $this->_secretKey, $method, $url, self::CONTENT_TYPE, $body);
-        $headers = array(
-            'User-Agent'    => $userAgent,
-            'Authorization' => $authorization,
-        );
-        $headers = array_merge($headers, array('Content-Type' => self::CONTENT_TYPE));
-        return $headers;
-    }
-
-    private function _request($method, $url, $body = NULL)
-    {
-        $headers = $this->_setHeaders($method, $url, $body);
-        $response = HttpRequest::send($method, $url, $body, $headers);
-        return $response->body;
-    }
-
-
-
-    public function publishUrl($rtmpPubHost, $streamId, $publishKey, $publishSecurity = NULL, $nonce = NULL, $scheme = 'rtmp')
-    {
-        switch ($publishSecurity) {
-            case 'dynamic':
-                $url = $this->_buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme);
-                break;
-            case 'static':
-                $url = $this->_buildStaticUrl($rtmpPubHost, $streamId, $publishKey, $scheme);
-                break;
-            default:
-                $url = $this->_buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme);
-                break;
-        }
-        return $url;
-    }
-
-    private function _resolvePath($streamId)
-    {
-        $pieces = explode('.', $streamId);
-        $baseUri = "/$pieces[1]/$pieces[2]";
-        return $baseUri;
-    }
-
-    private function _buildStaticUrl($rtmpPubHost, $streamId, $publishKey, $scheme)
-    {
-        return $scheme . '://' . $rtmpPubHost . $this->_resolvePath($streamId) . '?key=' . $publishKey;
-    }
-
-    private function _buildDynamicUrl($rtmpPubHost, $streamId, $publishKey, $nonce, $scheme)
-    {
-        if(empty($nonce)) {
-            $nonce = time();
-        }
-        $baseUri = $this->_resolvePath($streamId) . '?nonce=' . $nonce;
-        $publishToken = Utils::sign($publishKey, $baseUri);
-        $baseUrl = $scheme . '://' . $rtmpPubHost . $baseUri . '&token=' . $publishToken;
-        return $baseUrl;
-    }
-
-
-
-    public function rtmpLiveUrl($rtmpPlayHost, $streamId, $preset = NULL, $scheme = 'rtmp')
-    {
-        $baseUri = $this->_resolvePath($streamId);
-        $url = $scheme . '://' . $rtmpPlayHost . $baseUri;
-        if (!empty($preset)) {
-            $url .= '@' . $preset;
-        }
-        return $url;
-    }
-
-    public function hlsLiveUrl($hlsPlayHost, $streamId, $preset = NULL, $scheme = 'http')
-    {
-        $baseUri = $this->_resolvePath($streamId);
-        $url = $scheme . '://' . $hlsPlayHost . $baseUri;
-        if (!empty($preset)) {
-            $url .= '@' . $preset;
-        }
-        $url .= '.m3u8';
-        return $url;
-    }
-
-    public function hlsPlaybackUrl($hlsPlayHost, $streamId, $startTime, $endTime, $preset = NULL, $scheme = 'http')
-    {
-        $baseUri = $this->_resolvePath($streamId);
-        $url = $scheme . '://' . $hlsPlayHost . $baseUri;
-        if (!empty($preset)) {
-            $url .= '@' . $preset;
-        }
-        $url .= '.m3u8';
-        if (!empty($startTime)) {
-            $url .= "?start=$startTime";
-        }
-        if (!empty($endTime)) {
-            $url .= "&end=$endTime";
-        }
-        return $url;
-    }
-
 }
-
 ?>

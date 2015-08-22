@@ -1,10 +1,8 @@
 <?php
-
 namespace Pili;
 
 class HttpResponse
 {
-
     private $code;
     private $raw_body;
     private $body;
@@ -70,5 +68,5 @@ class HttpResponse
         }
         return $result;
     }
-
 }
+?>

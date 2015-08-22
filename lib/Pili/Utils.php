@@ -1,16 +1,13 @@
 <?php
-
 namespace Pili;
+
+use Pili\Conf;
 
 final class Utils
 {
-
-    const USER_AGENT         = 'pili-sdk-php';
-    const DIGEST_AUTH_PREFIX = 'Qiniu';
-
-    public static function getUserAgent($version)
+    public static function getUserAgent()
     {
-        $ua = self::USER_AGENT . '/' . $version;
+        $ua = SDK_USER_AGENT . '/' . SDK_VERSION;
         if (extension_loaded('curl')) {
             $curlVersion = curl_version();
             $ua .= ' curl/' . $curlVersion['version'];
@@ -66,9 +63,7 @@ final class Utils
         if (!empty($body)) {
             $data .= $body;
         }
-        return self::DIGEST_AUTH_PREFIX . ' ' . $accessKey . ':' . self::sign($secretKey, $data);
+        return 'Qiniu ' . $accessKey . ':' . self::sign($secretKey, $data);
     }
-
 }
-
 ?>

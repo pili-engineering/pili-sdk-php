@@ -1,18 +1,18 @@
 {
-    "name": "pili-io/pili-sdk-php",
+    "name": "pili-engineering/pili-sdk-php",
     "type": "library",
     "description": "Pili Live Streaming Service server-side library for PHP.",
-    "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "m3u8"],
-    "homepage": "https://github.com/pili-io/pili-sdk-php",
+    "keywords": ["pili", "cloud", "live streaming", "rtmp", "hls", "hdl", "hds", "dash"],
+    "homepage": "https://github.com/pili-engineering/pili-sdk-php",
     "license": "MIT",
     "authors": [
         {
             "name": "Pili Engineering",
-            "homepage": "https://github.com/pili-io"
+            "homepage": "https://github.com/pili-engineering"
         }
     ],
     "support": {
-        "issues": "https://github.com/pili-io/pili-sdk-php/issues"
+        "issues": "https://github.com/pili-engineering/pili-sdk-php/issues"
     },
     "require": {
         "php": ">=5.3.0"
@@ -27,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.4-dev"
         }
     }
 }
