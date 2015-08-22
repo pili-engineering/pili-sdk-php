@@ -20,7 +20,7 @@ $client = new Pili(ACCESS_KEY, SECRET_KEY, HUB); # => Object
 // Change API host
 $client->config('API_HOST', 'pili-lte.qiniuapi.com');
 
-// Create a new stream
+// Create a new Stream
 try {
 
     $title           = NULL;     // optional, auto-generated as default
@@ -90,7 +90,7 @@ Pili\Stream::__set_state(array(
 */
 
 
-// Get an exist stream
+// Get Stream
 try {
 
     $streamId = $stream->id;
@@ -200,7 +200,7 @@ echo "\n\n";
 */
 
 
-// Update a stream
+// Update a Stream
 try {
 
     $stream->publishKey      = 'new_secret_words'; // optional
@@ -254,7 +254,7 @@ Pili\Stream::__set_state(array(
 */
 
 
-// Disable a stream
+// Disable a Stream
 $stream = $stream->disable(); # => Stream Object
 echo "Stream disable() =>\n";
 var_export($stream->disabled);
@@ -264,7 +264,7 @@ true
 */
 
 
-// Enable a stream
+// Enable a Stream
 $stream = $stream->enable(); # => Stream Object
 echo "Stream enable() =>\n";
 var_export($stream->disabled);
@@ -274,7 +274,7 @@ false
 */
 
 
-// Get stream status
+// Get Stream status
 try {
 
     $result = $stream->status(); # => Array
@@ -347,7 +347,7 @@ array (
 */
 
 
-// Get stream segments
+// Get Stream segments
 try {
 
     $start = NULL;    // optional, in second, unix timestamp
@@ -397,7 +397,7 @@ array (
 */
 
 
-// Snapshot from a live streaming
+// Snapshot Stream
 try {
 
     $name      = 'imageName'; // required
@@ -449,7 +449,7 @@ array (
 */
 
 
-// Delete a stream
+// Delete a Stream
 try {
     $result = $stream->delete(); # => NULL
     echo "Stream delete() =>\n";
