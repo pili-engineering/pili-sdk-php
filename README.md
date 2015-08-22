@@ -32,7 +32,7 @@
         - [Instantiate a Pili client](#Instantiate-a-Pili-client)
         - [Create a new Stream](#Create-a-new-Stream)
         - [Get a Stream](#Get-a-Stream)
-        - [List streams](#List-streams)
+        - [List Stream](#List-streams)
     - [Stream](#Stream)
         - [To JSON string](#To-JSON-string)
         - [Update a Stream](#Update-a-Stream)
@@ -277,7 +277,7 @@ Pili\Stream::__set_state(array(
 */
 ```
 
-#### List streams
+#### List Stream
 
 ```php
 try {
@@ -613,7 +613,7 @@ array (
 */
 ```
 
-You can get saving state via Qiniu FOP Service using persistentId.  
+You can get processing state via Qiniu FOP Service using persistentId.  
 API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`  
 Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
 

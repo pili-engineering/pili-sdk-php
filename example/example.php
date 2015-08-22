@@ -447,6 +447,7 @@ array (
   'persistentId' => 'z1.55d7a6e77823de5a49a8899b',
 )
 */
+// curl -D GET http://api.qiniu.com/status/get/prefop?id={persistentId}
 
 
 // Delete a Stream
