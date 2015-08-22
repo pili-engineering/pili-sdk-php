@@ -8,9 +8,9 @@ define('SDK_USER_AGENT', 'pili-sdk-php');
 
 final class Conf 
 {
-	public static $API_HOST    = DEFAULT_API_HOST;
-	public static $API_VERSION = DEFAULT_API_VERSION;
-	public static $USE_HTTPS   = false;
+	public $API_HOST    = DEFAULT_API_HOST;
+	public $API_VERSION = DEFAULT_API_VERSION;
+	public $USE_HTTPS   = false;
 
     private static $_instance = NULL;
 

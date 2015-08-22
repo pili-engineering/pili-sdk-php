@@ -10,8 +10,9 @@ final class Api
 {
     private static function _getApiBaseUrl()
     {
-        $protocal = Conf::$USE_HTTPS === true ? "https" : "http";
-        return sprintf("%s://%s/%s/", $protocal, Conf::$API_HOST, Conf::$API_VERSION);
+        $protocal = Conf::getInstance()->USE_HTTPS === true ? "https" : "http";
+        $url = sprintf("%s://%s/%s/", $protocal, Conf::getInstance()->API_HOST, Conf::getInstance()->API_VERSION);
+        return $url;
     }
 
     public static function createStream($auth, $hubName, $title = NULL, $publishKey = NULL, $publishSecurity = NULL)
