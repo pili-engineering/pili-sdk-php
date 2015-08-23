@@ -1,21 +1,23 @@
 <?php
 namespace Pili;
 
-define('DEFAULT_API_HOST', 'pili.qiniuapi.com');
-define('DEFAULT_API_VERSION', 'v1');
-define('SDK_VERSION', '1.4.0');
-define('SDK_USER_AGENT', 'pili-sdk-php');
-
-final class Conf 
+final class Config
 {
-	public $API_HOST    = DEFAULT_API_HOST;
-	public $API_VERSION = DEFAULT_API_VERSION;
-	public $USE_HTTPS   = false;
+    const SDK_VERSION           = '1.5.0';
+    const SDK_USER_AGENT        = 'pili-sdk-php';
 
-    private static $_instance = NULL;
+	public $USE_HTTPS           = false;
+    public $API_HOST            = 'pili.qiniuapi.com';
+    public $API_VERSION         = 'v1';
+
+    protected static $_instance = NULL;
+
+    protected function __construct(){}
+
+    protected function __clone(){}
 
     public static function getInstance()
-    {  
+    {
         if (!(self::$_instance instanceof self)) {  
             self::$_instance = new self();  
         }  

@@ -3,9 +3,9 @@
 ## Features
 
 - Stream Create,Get,List
-    - [x] $client->createStream()
-    - [x] $client->getStream()
-    - [x] $client->listStreams()
+    - [x] $hub->createStream()
+    - [x] $hub->getStream()
+    - [x] $hub->listStreams()
 - Stream operations else
     - [x] stream->toJSONString()
     - [x] stream->update()
@@ -25,30 +25,30 @@
 
 ## Contents
 
-- [Installation](#Installation)
-- [Usage](#Usage)
-    - [Configuration](#Configuration)
-    - [Client](#Client)
-        - [Instantiate a Pili client](#Instantiate-a-Pili-client)
-        - [Create a new Stream](#Create-a-new-Stream)
-        - [Get a Stream](#Get-a-Stream)
-        - [List Stream](#List-streams)
-    - [Stream](#Stream)
-        - [To JSON string](#To-JSON-string)
-        - [Update a Stream](#Update-a-Stream)
-        - [Disable a Stream](#Disable-a-Stream)
-        - [Enable a Stream](#Enable-a-Stream)
-        - [Get Stream status](#Get-Stream-status)
-        - [Generate RTMP publish URL](#Generate-RTMP-publish-URL)
-        - [Generate RTMP live play URLs](#Generate-RTMP-live-play-URLs)
-        - [Generate HLS play URLs](Generate-HLS-play-URLs)
-        - [Generate Http-Flv live play URLs](Generate-Http-Flv-live-play-URLs)
-        - [Get Stream segments](#Get-Stream-segments)
-        - [Generate HLS playback URLs](Generate-HLS-playback-URLs)
-        - [Snapshot Stream](#Snapshot-Stream)
-        - [Save Stream as a file](#Save-Stream-as-a-file)
-        - [Delete a Stream](Delete-a-stream)
-- [History](#History)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Configuration](#configuration)
+    - [Hub](#hub)
+        - [Instantiate a Pili Hub object](#instantiate-a-pili-hub-object)
+        - [Create a new Stream](#create-a-new-stream)
+        - [Get a Stream](#get-a-stream)
+        - [List Streams](#List-streams)
+    - [Stream](#stream)
+        - [To JSON string](#to-json-string)
+        - [Update a Stream](#update-a-stream)
+        - [Disable a Stream](#disable-a-stream)
+        - [Enable a Stream](#enable-a-stream)
+        - [Get Stream status](#get-stream-status)
+        - [Generate RTMP publish URL](#generate-rtmp-publish-url)
+        - [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
+        - [Generate HLS live play URLs](generate-hls-live-play-urls)
+        - [Generate Http-Flv live play URLs](generate-http-flv-live-play-urls)
+        - [Get Stream segments](#get-stream-segments)
+        - [Generate HLS playback URLs](generate-hls-playback-urls)
+        - [Save Stream as a file](#save-stream-as-a-file)
+        - [Snapshot Stream](#snapshot-stream)
+        - [Delete a Stream](#delete-a-stream)
+- [History](#history)
 
 
 ## Installaion
@@ -137,19 +137,28 @@ define('ACCESS_KEY', 'Qiniu_AccessKey');
 define('SECRET_KEY', 'Qiniu_SecretKey');
 
 // Replace with your hub name
-define('HUB', 'Pili_HubName');
+define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
+
+// Change API host as necessary
+// 
+// pili.qiniuapi.com as deafult
+// pili-lte.qiniuapi.com is the latest RC version
+// 
+$cfg = \Pili\Config::getInstance();
+$cfg->API_HOST = 'pili-lte.qiniuapi.com';
 ```
 
-### Client
 
-#### Instantiate a Pili client
+### Hub
+
+#### Instantiate a Pili Hub object
 
 ```php
-$client = new Pili(ACCESS_KEY, SECRET_KEY, HUB); # => Object
-
-// Change API host
-// $client->config('API_HOST', 'pili-lte.qiniuapi.com');
+// Instantiate an Hub object
+$credentials = new \Qiniu\Credentials(ACCESS_KEY, SECRET_KEY); #=> Credentials Object
+$hub = new \Pili\Hub($credentials, HUB); # => Hub Object
 ```
+
 
 #### Create a new Stream
 
@@ -160,9 +169,9 @@ try {
     $publishKey      = NULL;     // optional, auto-generated as default
     $publishSecurity = NULL;     // optional, can be "dynamic" or "static", "dynamic" as default
 
-    $stream = $client->createStream($title, $publishKey, $publishSecurity); # => Stream Object
+    $stream = $hub->createStream($title, $publishKey, $publishSecurity); # => Stream Object
 
-    echo "Client createStream() =>\n";
+    echo "createStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
@@ -183,7 +192,7 @@ try {
     */
 
 } catch (Exception $e) {
-    echo 'Client createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
+    echo 'createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
@@ -222,6 +231,7 @@ Pili\Stream::__set_state(array(
 ))
 */
 ```
+
 
 #### Get a Stream
 
@@ -230,14 +240,14 @@ try {
 
     $streamId = $stream->id;
 
-    $stream = $client->getStream($streamId); # => Stream Object
+    $stream = $hub->getStream($streamId); # => Stream Object
 
-    echo "Client getStream() =>\n";
+    echo "getStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "Client getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
@@ -277,7 +287,8 @@ Pili\Stream::__set_state(array(
 */
 ```
 
-#### List Stream
+
+#### List Streams
 
 ```php
 try {
@@ -286,14 +297,14 @@ try {
     $limit        = NULL;      // optional
     $title_prefix = NULL;      // optional
 
-    $result = $client->listStreams($marker, $limit, $title_prefix); # => Array
+    $result = $hub->listStreams($marker, $limit, $title_prefix); # => Array
 
-    echo "Client listStreams() =>\n";
+    echo "listStreams() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "Client listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -339,6 +350,7 @@ echo "\n\n";
 }'
 */
 ```
+
 
 ### Update a Stream
 
@@ -396,6 +408,7 @@ Pili\Stream::__set_state(array(
 */
 ```
 
+
 #### Disable a Stream
 
 ```php
@@ -408,6 +421,7 @@ true
 */
 ```
 
+
 #### Enable a Stream
 
 ```php
@@ -419,6 +433,7 @@ echo "\n\n";
 false
 */
 ```
+
 
 #### Get Stream status
 
@@ -449,6 +464,7 @@ array (
 */
 ```
 
+
 #### Generate RTMP publish URL
 
 ```php
@@ -460,6 +476,7 @@ echo "\n\n";
 rtmp://iuel7l.publish.z1.pili.qiniup.com/coding/55d7a219e3ba5723280000b5?key=new_secret_words
 */
 ```
+
 
 #### Generate RTMP live play URLs
 
@@ -475,7 +492,8 @@ array (
 */
 ```
 
-#### Generate HLS play URLs
+
+#### Generate HLS play live URLs
 
 ```php
 $urls = $stream->hlsLiveUrls();
@@ -488,6 +506,7 @@ array (
 )
 */
 ```
+
 
 #### Generate Http-Flv live play URLs
 
@@ -502,6 +521,7 @@ array (
 )
 */
 ```
+
 
 #### Get Stream segments
 
@@ -540,6 +560,7 @@ array (
 */
 ```
 
+
 #### Generate HLS playback URLs
 
 ```php
@@ -557,32 +578,6 @@ array (
 */
 ```
 
-#### Snapshot Stream
-
-```php
-try {
-
-    $name      = 'imageName.jpg'; // required
-    $format    = 'jpg';           // required
-    $time      = 1440196100;      // optional, in second, unix timestamp
-    $notifyUrl = NULL;            // optional
-
-    $result = $stream->snapshot($name, $format, $time, $notifyUrl); # => Array
-
-    echo "Stream snapshot() =>\n";
-    var_export($result);
-    echo "\n\n";
-
-} catch (Exception $e) {
-    echo "Stream snapshot() failed. Caught exception: ",  $e->getMessage(), "\n";
-}
-/*
-array (
-  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
-  'persistentId' => 'z1.55d7a6e77823de5a49a8899a',
-)
-*/
-```
 
 #### Save Stream as a file
 
@@ -613,9 +608,38 @@ array (
 */
 ```
 
-You can get processing state via Qiniu FOP Service using persistentId.  
-API: `curl -D GET http://api.qiniu.com/status/get/prefop?id=<PersistentId>`  
+
+While invoking `saveAs()` and `snapshot()`, you can get processing state via Qiniu FOP Service using `persistentId`.  
+API: `curl -D GET http://api.qiniu.com/status/get/prefop?id={PersistentId}`  
 Doc reference: <http://developer.qiniu.com/docs/v6/api/overview/fop/persistent-fop.html#pfop-status>  
+
+
+#### Snapshot Stream
+
+```php
+try {
+
+    $name      = 'imageName.jpg'; // required
+    $format    = 'jpg';           // required
+    $time      = 1440196100;      // optional, in second, unix timestamp
+    $notifyUrl = NULL;            // optional
+
+    $result = $stream->snapshot($name, $format, $time, $notifyUrl); # => Array
+
+    echo "Stream snapshot() =>\n";
+    var_export($result);
+    echo "\n\n";
+
+} catch (Exception $e) {
+    echo "Stream snapshot() failed. Caught exception: ",  $e->getMessage(), "\n";
+}
+/*
+array (
+  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
+  'persistentId' => 'z1.55d7a6e77823de5a49a8899a',
+)
+*/
+```
 
 
 #### Delete a Stream
@@ -637,12 +661,15 @@ NULL
 
 ## History
 
+- 1.5.0
+    - Add Credentials and Transport class
+    - Renamed $client to $hub
 - 1.4.0
-    - Update client functions
-        - $client->createStream()
-        - $client->getStream()
-        - $client->listStreams()
-    - Add Stream operations
+    - Add Stream Create,Get,List
+        - $hub->createStream()
+        - $hub->getStream()
+        - $hub->listStreams()
+    - Add Stream operations else
         - $stream->toJSONString()
         - $stream->update()
         - $stream->disable()
