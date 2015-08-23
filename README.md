@@ -153,9 +153,11 @@ $cfg->API_HOST = 'pili-lte.qiniuapi.com';
 
 #### Instantiate a Pili Hub object
 
+```php
 // Instantiate an Hub object
 $credentials = new \Qiniu\Credentials(ACCESS_KEY, SECRET_KEY); #=> Credentials Object
 $hub = new \Pili\Hub($credentials, HUB); # => Hub Object
+```
 
 
 #### Create a new Stream
@@ -660,7 +662,7 @@ NULL
 ## History
 
 - 1.5.0
-    - Add Credentials class
+    - Add Credentials and Transport class
     - Renamed $client to $hub
 - 1.4.0
     - Add Stream Create,Get,List
