@@ -9,7 +9,7 @@ define('ACCESS_KEY', 'Qiniu_AccessKey');
 define('SECRET_KEY', 'Qiniu_SecretKey');
 
 // Replace with your hub name
-define('HUB', 'Pili_HubName'); // The Hub must be exists before use
+define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
 
 
 // Change API host as necessary
