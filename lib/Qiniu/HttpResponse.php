@@ -1,5 +1,5 @@
 <?php
-namespace Pili;
+namespace Qiniu;
 
 class HttpResponse
 {

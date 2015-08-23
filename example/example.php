@@ -9,16 +9,24 @@ define('ACCESS_KEY', 'Qiniu_AccessKey');
 define('SECRET_KEY', 'Qiniu_SecretKey');
 
 // Replace with your hub name
-define('HUB', 'Pili_HubName');
+define('HUB', 'Pili_HubName'); // The Hub must be exists before use
 
 
-// Client
+// Change API host as necessary
+// 
+// pili.qiniuapi.com as deafult
+// pili-lte.qiniuapi.com is the latest RC version
+//
+$cfg = \Pili\Config::getInstance();
+$cfg->API_HOST = 'pili-lte.qiniuapi.com';
 
-// Instantiate an Pili client
-$client = new Pili(ACCESS_KEY, SECRET_KEY, HUB); # => Object
 
-// Change API host
-$client->config('API_HOST', 'pili-lte.qiniuapi.com');
+// Hub
+
+// Instantiate an Hub object
+$credentials = new \Qiniu\Credentials(ACCESS_KEY, SECRET_KEY); #=> Credentials Object
+$hub = new \Pili\Hub($credentials, HUB); # => Hub Object
+
 
 // Create a new Stream
 try {
@@ -27,9 +35,9 @@ try {
     $publishKey      = NULL;     // optional, auto-generated as default
     $publishSecurity = NULL;     // optional, can be "dynamic" or "static", "dynamic" as default
 
-    $stream = $client->createStream($title, $publishKey, $publishSecurity); # => Stream Object
+    $stream = $hub->createStream($title, $publishKey, $publishSecurity); # => Stream Object
 
-    echo "Client createStream() =>\n";
+    echo "createStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
@@ -50,11 +58,11 @@ try {
     */
 
 } catch (Exception $e) {
-    echo 'Client createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
+    echo 'createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
-   '_auth' => 
+   '_credentials' => 
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
@@ -95,18 +103,18 @@ try {
 
     $streamId = $stream->id;
 
-    $stream = $client->getStream($streamId); # => Stream Object
+    $stream = $hub->getStream($streamId); # => Stream Object
 
-    echo "Client getStream() =>\n";
+    echo "getStream() =>\n";
     var_export($stream);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "Client getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "getStream() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 Pili\Stream::__set_state(array(
-   '_auth' => 
+   '_credentials' => 
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
@@ -149,14 +157,14 @@ try {
     $limit        = NULL;      // optional
     $title_prefix = NULL;      // optional
 
-    $result = $client->listStreams($marker, $limit, $title_prefix); # => Array
+    $result = $hub->listStreams($marker, $limit, $title_prefix); # => Array
 
-    echo "Client listStreams() =>\n";
+    echo "listStreams() =>\n";
     var_export($result);
     echo "\n\n";
 
 } catch (Exception $e) {
-    echo "Client listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
+    echo "listStreams() failed. Caught exception: ",  $e->getMessage(), "\n";
 }
 /*
 array (
@@ -218,7 +226,7 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_auth' => 
+   '_credentials' => 
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',

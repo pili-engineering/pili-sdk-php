@@ -1,21 +1,21 @@
 <?php
 namespace Pili;
 
-use Pili\Conf;
-use Pili\Utils;
-use Pili\HttpRequest;
-use Pili\Auth;
+use \Qiniu\Utils;
+use \Qiniu\HttpRequest;
+use \Pili\Config;
 
 final class Api
 {
     private static function _getApiBaseUrl()
     {
-        $protocal = Conf::getInstance()->USE_HTTPS === true ? "https" : "http";
-        $url = sprintf("%s://%s/%s/", $protocal, Conf::getInstance()->API_HOST, Conf::getInstance()->API_VERSION);
+        $cfg = Config::getInstance();
+        $protocal = $cfg->USE_HTTPS === true ? "https" : "http";
+        $url = sprintf("%s://%s/%s/", $protocal, $cfg->API_HOST, $cfg->API_VERSION);
         return $url;
     }
 
-    public static function createStream($auth, $hubName, $title = NULL, $publishKey = NULL, $publishSecurity = NULL)
+    public static function createStream($transport, $hubName, $title = NULL, $publishKey = NULL, $publishSecurity = NULL)
     {
         $url = self::_getApiBaseUrl() . 'streams';
         $params = array('hub' => $hubName);
@@ -29,16 +29,16 @@ final class Api
             $params = array_merge($params, array('publishSecurity' => $publishSecurity));
         }
         $body = json_encode($params);
-        return $auth->request(HttpRequest::POST, $url, $body);
+        return $transport->send(HttpRequest::POST, $url, $body);
     }
 
-    public static function getStream($auth, $streamId)
+    public static function getStream($transport, $streamId)
     {
         $url  = self::_getApiBaseUrl() . "streams/$streamId";
-        return $auth->request(HttpRequest::GET, $url);
+        return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function listStreams($auth, $hubName, $marker = NULL, $limit = NULL, $title = NULL)
+    public static function listStreams($transport, $hubName, $marker = NULL, $limit = NULL, $title = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams?hub=$hubName";
         if (!empty($marker)) {
@@ -50,16 +50,16 @@ final class Api
         if (!empty($title)) {
             $url .= "&title=$title";
         }
-        return $auth->request(HttpRequest::GET, $url);
+        return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function streamStatus($auth, $streamId)
+    public static function streamStatus($transport, $streamId)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/status";
-        return $auth->request(HttpRequest::GET, $url);
+        return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function streamUpdate($auth, $streamId, $options = array())
+    public static function streamUpdate($transport, $streamId, $options = array())
     {
         $url  = self::_getApiBaseUrl() . "streams/$streamId";
         $params = array();
@@ -71,16 +71,16 @@ final class Api
         }
         $body = json_encode($params);
         $body = empty($body) ? '{}' : $body;
-        return $auth->request(HttpRequest::POST, $url, $body);
+        return $transport->send(HttpRequest::POST, $url, $body);
     }
 
-    public static function streamDelete($auth, $streamId)
+    public static function streamDelete($transport, $streamId)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId";
-        return $auth->request(HttpRequest::DELETE, $url);
+        return $transport->send(HttpRequest::DELETE, $url);
     }
 
-    public static function streamSegments($auth, $streamId, $startTime = NULL, $endTime = NULL, $limit = NULL)
+    public static function streamSegments($transport, $streamId, $startTime = NULL, $endTime = NULL, $limit = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/segments";
         if (!empty($startTime)) {
@@ -92,10 +92,10 @@ final class Api
         if (!empty($limit)) {
             $url .= "&limit=$limit";
         }
-        return $auth->request(HttpRequest::GET, $url);
+        return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function streamSaveAs($auth, $streamId, $name, $format, $start, $end, $notifyUrl = NULL)
+    public static function streamSaveAs($transport, $streamId, $name, $format, $start, $end, $notifyUrl = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/saveas";
         $params = array(
@@ -108,10 +108,10 @@ final class Api
             $params['notifyUrl'] = $notifyUrl;
         }
         $body = json_encode($params);
-        return $auth->request(HttpRequest::POST, $url, $body);
+        return $transport->send(HttpRequest::POST, $url, $body);
     }
 
-    public static function streamSnapshot($auth, $streamId, $name, $format, $time = NULL, $notifyUrl = NULL)
+    public static function streamSnapshot($transport, $streamId, $name, $format, $time = NULL, $notifyUrl = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/snapshot";
         $params = array(
@@ -125,7 +125,7 @@ final class Api
             $params['notifyUrl'] = $notifyUrl;
         }
         $body = json_encode($params);
-        return $auth->request(HttpRequest::POST, $url, $body);
+        return $transport->send(HttpRequest::POST, $url, $body);
     }
 }
 ?>

@@ -1,20 +1,21 @@
 <?php
 namespace Pili;
 
-use Pili\Utils;
-use Pili\Auth;
-use Pili\Api;
+use \Qiniu\Utils;
+use \Pili\Api;
 
 class Stream
 {
-    private $_auth;
+    private $_transport;
     private $_data;
 
-    public function __construct($auth, $streamArr = array())
+    public function __construct($transport, $streamData = array())
     {
-        $this->_auth = $auth;
-        $this->_data = $streamArr;
-        if (empty($streamArr) || !is_array($streamArr)) {
+        $this->_data = $streamData;
+
+        $this->_transport = $transport;
+
+        if (empty($streamData) || !is_array($streamData)) {
             throw new \Exception('invalid args');
         }
     }
@@ -47,13 +48,13 @@ class Stream
 
     public function status() 
     {
-        return Api::streamStatus($this->_auth, $this->id);
+        return Api::streamStatus($this->_transport, $this->id);
     }
 
     public function update()
     {
-        $stream = Api::streamUpdate($this->_auth, $this->id, $this->_data);
-        return new Stream($this->_auth, $stream);
+        $stream = Api::streamUpdate($this->_transport, $this->id, $this->_data);
+        return new Stream($this->_transport, $stream);
     }
 
     public function disable() 
@@ -70,22 +71,22 @@ class Stream
 
     public function delete() 
     {
-        return Api::streamDelete($this->_auth, $this->id);
+        return Api::streamDelete($this->_transport, $this->id);
     }
 
     public function segments($start = NULL, $end = NULL, $limit = NULL) 
     {
-        return Api::streamSegments($this->_auth, $this->id, $start, $end, $limit);
+        return Api::streamSegments($this->_transport, $this->id, $start, $end, $limit);
     }
 
     public function saveAs($name, $format, $start, $end, $notifyUrl = NULL) 
     {
-        return Api::streamSaveAs($this->_auth, $this->id, $name, $format, $start, $end, $notifyUrl);
+        return Api::streamSaveAs($this->_transport, $this->id, $name, $format, $start, $end, $notifyUrl);
     }
 
     public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL) 
     {
-        return Api::streamSnapshot($this->_auth, $this->id, $name, $format, $time, $notifyUrl);
+        return Api::streamSnapshot($this->_transport, $this->id, $name, $format, $time, $notifyUrl);
     }
 
     // Publish URL

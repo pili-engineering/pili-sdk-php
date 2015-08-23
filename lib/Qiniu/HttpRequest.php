@@ -1,7 +1,7 @@
 <?php
-namespace Pili;
+namespace Qiniu;
 
-use Pili\HttpResponse;
+use \Qiniu\HttpResponse;
 
 class HttpRequest
 {
