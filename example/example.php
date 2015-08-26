@@ -17,8 +17,8 @@ define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
 // pili.qiniuapi.com as deafult
 // pili-lte.qiniuapi.com is the latest RC version
 //
-$cfg = \Pili\Config::getInstance();
-$cfg->API_HOST = 'pili-lte.qiniuapi.com';
+// $cfg = \Pili\Config::getInstance();
+// $cfg->API_HOST = 'pili.qiniuapi.com'; // default
 
 
 // Hub
