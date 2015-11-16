@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Pili": "lib/"
+            "Pili": "lib/",
+            "Qiniu": "lib/"
         }
     },
     "extra": {
