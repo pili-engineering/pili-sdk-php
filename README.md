@@ -78,7 +78,7 @@ existing `composer.json` file:
 ```js
 {
     "require": {
-        "pili-engineering/pili-sdk-php": "dev-msater"
+        "pili-engineering/pili-sdk-php": "dev-master"
     }
 }
 ```
