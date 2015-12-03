@@ -38,7 +38,7 @@ final class Api
         return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function listStreams($transport, $hubName, $marker = NULL, $limit = NULL, $title = NULL)
+    public static function listStreams($transport, $hubName, $marker = NULL, $limit = NULL, $title = NULL, $status = NULL, $idonly = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams?hub=$hubName";
         if (!empty($marker)) {
@@ -49,6 +49,12 @@ final class Api
         }
         if (!empty($title)) {
             $url .= "&title=$title";
+        }
+        if (!empty($status)) {
+        	$url .= "&status=$status";
+        }
+        if (!empty($idonly)) {
+        	$url .= "&idonly";
         }
         return $transport->send(HttpRequest::GET, $url);
     }
@@ -95,23 +101,32 @@ final class Api
         return $transport->send(HttpRequest::GET, $url);
     }
 
-    public static function streamSaveAs($transport, $streamId, $name, $format, $start, $end, $notifyUrl = NULL)
+    public static function streamSaveAs($transport, $streamId, $name, $format = NULL, $start = NULL, $end = NULL, $notifyUrl = NULL, $pipeline = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/saveas";
         $params = array(
             'name'   => $name,
-            'format' => $format,
-            'start'  => $start, 
-            'end'    => $end,
         );
+        if (!empty($format)) {
+            $params['format'] = $format;
+        }
+        if (!empty($start)) {
+            $params['start'] = $start;
+        }
+        if (!empty($end)) {
+            $params['end'] = $end;
+        }
         if (!empty($notifyUrl)) {
             $params['notifyUrl'] = $notifyUrl;
+        }
+        if (!empty($pipeline)) {
+            $params['pipeline'] = $pipeline;
         }
         $body = json_encode($params);
         return $transport->send(HttpRequest::POST, $url, $body);
     }
 
-    public static function streamSnapshot($transport, $streamId, $name, $format, $time = NULL, $notifyUrl = NULL)
+    public static function streamSnapshot($transport, $streamId, $name, $format, $time = NULL, $notifyUrl = NULL, $pipeline = NULL)
     {
         $url = self::_getApiBaseUrl() . "streams/$streamId/snapshot";
         $params = array(
@@ -123,6 +138,9 @@ final class Api
         }
         if (!empty($notifyUrl)) {
             $params['notifyUrl'] = $notifyUrl;
+        }
+        if (!empty($pipeline)) {
+            $params['pipeline'] = $pipeline;
         }
         $body = json_encode($params);
         return $transport->send(HttpRequest::POST, $url, $body);

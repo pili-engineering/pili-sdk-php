@@ -3,7 +3,7 @@ namespace Pili;
 
 final class Config
 {
-    const SDK_VERSION           = '1.5.0';
+    const SDK_VERSION           = '1.5.1';
     const SDK_USER_AGENT        = 'pili-sdk-php';
 
 	public $USE_HTTPS           = false;

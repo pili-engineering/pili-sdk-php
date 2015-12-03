@@ -41,22 +41,6 @@ try {
     var_export($stream);
     echo "\n\n";
 
-    /*
-    echo $stream->id;
-    echo $stream->createdAt;
-    echo $stream->updatedAt;
-    echo $stream->title;
-    echo $stream->hub;
-    echo $stream->disabled;
-    echo $stream->publishKey;
-    echo $stream->publishSecurity;
-    echo $stream->hosts;
-    echo $stream->hosts["publish"]["rtmp"];
-    echo $stream->hosts["live"]["rtmp"];
-    echo $stream->hosts["live"]["http"];
-    echo $stream->hosts["playback"]["http"];
-    */
-
 } catch (Exception $e) {
     echo 'createStream() failed. Caught exception: ',  $e->getMessage(), "\n";
 }
@@ -81,16 +65,17 @@ Pili\Stream::__set_state(array(
     array (
       'publish' => 
       array (
-        'rtmp' => 'iuel7l.publish.z1.pili.qiniup.com',
+        'rtmp' => 'pili-publish.example.com',
       ),
       'live' => 
       array (
-        'http' => 'iuel7l.live1-http.z1.pili.qiniucdn.com',
-        'rtmp' => 'iuel7l.live1-rtmp.z1.pili.qiniucdn.com',
+        'rtmp' => 'pili-live-rtmp.example.com',
+        'hls' => 'pili-live-hls.example.com',
+        'hdl' => 'pili-live-hdl.example.com',
       ),
       'playback' => 
       array (
-        'http' => 'iuel7l.playback1.z1.pili.qiniucdn.com',
+        'hls' => 'pili-playback.example.com',
       ),
     ),
   ),
@@ -133,16 +118,17 @@ Pili\Stream::__set_state(array(
     array (
       'publish' => 
       array (
-        'rtmp' => 'iuel7l.publish.z1.pili.qiniup.com',
+        'rtmp' => 'pili-publish.example.com',
       ),
       'live' => 
       array (
-        'http' => 'iuel7l.live1-http.z1.pili.qiniucdn.com',
-        'rtmp' => 'iuel7l.live1-rtmp.z1.pili.qiniucdn.com',
+        'rtmp' => 'pili-live-rtmp.example.com',
+        'hls' => 'pili-live-hls.example.com',
+        'hdl' => 'pili-live-hdl.example.com',
       ),
       'playback' => 
       array (
-        'http' => 'iuel7l.playback1.z1.pili.qiniucdn.com',
+        'hls' => 'pili-playback.example.com',
       ),
     ),
   ),
@@ -156,8 +142,9 @@ try {
     $marker       = NULL;      // optional
     $limit        = NULL;      // optional
     $title_prefix = NULL;      // optional
+    $status       = NULL;      // optional, "connected" only
 
-    $result = $hub->listStreams($marker, $limit, $title_prefix); # => Array
+    $result = $hub->listStreams($marker, $limit, $title_prefix, $status); # => Array
 
     echo "listStreams() =>\n";
     var_export($result);
@@ -169,11 +156,13 @@ try {
 /*
 array (
   'marker' => '2',
+  'end' => true,
   'items' => 
   array (
       0 => Stream Object,
       1 => Stream Object,
   )  
+)
 */
 
 
@@ -195,13 +184,14 @@ echo "\n\n";
     "publishKey":"734de946-11e0-487a-8627-30bf777ed5a3",
     "publishSecurity":"dynamic",
     "hosts":{
-        "publish":{"rtmp":"iuel7l.publish.z1.pili.qiniup.com"},
+        "publish":{"rtmp":"pili-publish.example.com"},
         "live":{
-            "http":"iuel7l.live1-http.z1.pili.qiniucdn.com",
-            "rtmp":"iuel7l.live1-rtmp.z1.pili.qiniucdn.com"
+            "rtmp":"pili-live-rtmp.example.com",
+            "hls":"pili-live-hls.example.com",
+            "hdl":"pili-live-hdl.example.com"
         },
         "playback":{
-            "http":"iuel7l.playback1.z1.pili.qiniucdn.com"
+            "hls":"pili-playback.example.com"
         }
     }
 }'
@@ -245,16 +235,17 @@ Pili\Stream::__set_state(array(
     array (
       'publish' => 
       array (
-        'rtmp' => 'iuel7l.publish.z1.pili.qiniup.com',
+        'rtmp' => 'pili-publish.example.com',
       ),
       'live' => 
       array (
-        'http' => 'iuel7l.live1-http.z1.pili.qiniucdn.com',
-        'rtmp' => 'iuel7l.live1-rtmp.z1.pili.qiniucdn.com',
+        'rtmp' => 'pili-live-rtmp.example.com',
+        'hls' => 'pili-live-hls.example.com',
+        'hdl' => 'pili-live-hdl.example.com',
       ),
       'playback' => 
       array (
-        'http' => 'iuel7l.playback1.z1.pili.qiniucdn.com',
+        'hls' => 'pili-playback.example.com',
       ),
     ),
   ),
@@ -296,6 +287,10 @@ try {
 }
 /*
 array (
+  "reqId" => "YmMxOTcuAAASDc1n",
+  "hub" => "coding",
+  "stream" => "2b20838cdb214448b7c7eef46abf1a0a",
+  "startFrom" => "2015-12-03T12:24:30.226Z",
   'addr' => '222.73.202.226:2572',
   'status' => 'connected',
   'bytesPerSecond' => 16870.200000000001,
@@ -315,7 +310,7 @@ echo "Stream rtmpPublishUrl() =>\n";
 echo $publishUrl;
 echo "\n\n";
 /*
-rtmp://iuel7l.publish.z1.pili.qiniup.com/coding/55d7a219e3ba5723280000b5?key=new_secret_words
+rtmp://pili-publish.example.com/coding/55d7a219e3ba5723280000b5?key=new_secret_words
 */
 
 
@@ -326,7 +321,7 @@ var_export($urls);
 echo "\n\n";
 /*
 array (
-  'ORIGIN' => 'rtmp://iuel7l.live1-rtmp.z1.pili.qiniucdn.com/coding/55d7a219e3ba5723280000b5',
+  'ORIGIN' => 'rtmp://pili-live-rtmp.example.com/coding/55d7a219e3ba5723280000b5',
 )
 */
 
@@ -338,7 +333,7 @@ var_export($urls);
 echo "\n\n";
 /*
 array (
-  'ORIGIN' => 'http://iuel7l.live1-http.z1.pili.qiniucdn.com/coding/55d7a219e3ba5723280000b5.m3u8',
+  'ORIGIN' => 'http://pili-live-hls.example.com/coding/55d7a219e3ba5723280000b5.m3u8',
 )
 */
 
@@ -350,7 +345,7 @@ var_export($urls);
 echo "\n\n";
 /*
 array (
-  'ORIGIN' => 'http://iuel7l.live1-http.z1.pili.qiniucdn.com/coding/55d7a219e3ba5723280000b5.flv',
+  'ORIGIN' => 'http://pili-live-hdl.example.com/coding/55d7a219e3ba5723280000b5.flv',
 )
 */
 
@@ -373,6 +368,8 @@ try {
 }
 /*
 array (
+  'start' => 1440196065,
+  'end' => 1440198092,
   'segments' => 
   array (
     0 => 
@@ -391,8 +388,8 @@ array (
 
 
 // Generate HLS playback URLs
-$start     = 1440196065;  // required, in second, unix timestamp
-$end       = 1440196105;  // required, in second, unix timestamp
+$start     = -1;  // optional, in second, unix timestamp
+$end       = -1;  // optional, in second, unix timestamp
 
 $urls = $stream->hlsPlaybackUrls($start, $end);
 echo "Stream hlsPlaybackUrls() =>\n";
@@ -400,7 +397,7 @@ var_export($urls);
 echo "\n\n";
 /*
 array (
-  'ORIGIN' => 'http://iuel7l.playback1.z1.pili.qiniucdn.com/coding/55d7a219e3ba5723280000b5.m3u8?start=1440196065&end=1440196105',
+  'ORIGIN' => 'http://pili-playback.example.com/coding/55d7a219e3ba5723280000b5.m3u8?start=-1&end=-1',
 )
 */
 
@@ -409,11 +406,12 @@ array (
 try {
 
     $name      = 'imageName.jpg'; // required
-    $format    = 'jpg';       // required
-    $time      = 1440196100;  // optional, in second, unix timestamp
-    $notifyUrl = NULL;        // optional
+    $format    = 'jpg';           // required
+    $time      = NULL;            // optional, in second, unix timestamp
+    $notifyUrl = NULL;            // optional
+    $pipeline  = NULL;            // optional
 
-    $result = $stream->snapshot($name, $format, $time, $notifyUrl); # => Array
+    $result = $stream->snapshot($name, $format, $time, $notifyUrl, $pipeline); # => Array
 
     echo "Stream snapshot() =>\n";
     var_export($result);
@@ -424,7 +422,7 @@ try {
 }
 /*
 array (
-  'targetUrl' => 'http://iuel7l.static1.z1.pili.qiniucdn.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
+  'targetUrl' => 'http://pili-static.example.com/snapshots/z1.coding.55d7a219e3ba5723280000b5/imageName.jpg',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899a',
 )
 */
@@ -434,12 +432,13 @@ array (
 try {
 
     $name      = 'videoName.mp4'; // required
-    $format    = 'mp4';           // required
-    $start     = 1440196065;      // required, in second, unix timestamp
-    $end       = 1440196105;      // required, in second, unix timestamp
+    $format    = NULL;            // optional
+    $start     = -1;              // optional, in second, unix timestamp
+    $end       = -1;              // optional, in second, unix timestamp
     $notifyUrl = NULL;            // optional
+    $pipeline  = NULL;            // optional
 
-    $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl = NULL); # => Array
+    $result = $stream->saveAs($name, $format, $start, $end, $notifyUrl, $pipeline); # => Array
 
     echo "Stream saveAs() =>\n";
     var_export($result);
@@ -450,8 +449,8 @@ try {
 }
 /*
 array (
-  'url' => 'http://iuel7l.media1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.m3u8',
-  'targetUrl' => 'http://iuel7l.vod1.z1.pili.qiniucdn.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.mp4',
+  'url' => 'http://pili-media.example.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.m3u8',
+  'targetUrl' => 'http://pili-vod.example.com/recordings/z1.coding.55d7a219e3ba5723280000b5/videoName.mp4',
   'persistentId' => 'z1.55d7a6e77823de5a49a8899b',
 )
 */
