@@ -29,9 +29,9 @@ class Hub
         return new Stream($this->_transport, $stream);
     }
 
-    public function listStreams($marker = NULL, $limit = NULL, $title_prefix = NULL)
+    public function listStreams($marker = NULL, $limit = NULL, $title_prefix = NULL, $status = NULL)
     {
-        $result = Api::listStreams($this->_transport, $this->_hub, $marker, $limit, $title_prefix);
+        $result = Api::listStreams($this->_transport, $this->_hub, $marker, $limit, $title_prefix, $status);
         $streams = $result["items"];
         foreach ($streams as &$stream) {
             $stream = new Stream($this->_transport, $stream);

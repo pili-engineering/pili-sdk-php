@@ -79,14 +79,14 @@ class Stream
         return Api::streamSegments($this->_transport, $this->id, $start, $end, $limit);
     }
 
-    public function saveAs($name, $format, $start, $end, $notifyUrl = NULL) 
+    public function saveAs($name, $format = NULL, $start = NULL, $end = NULL, $notifyUrl = NULL, $pipeline = NULL) 
     {
-        return Api::streamSaveAs($this->_transport, $this->id, $name, $format, $start, $end, $notifyUrl);
+        return Api::streamSaveAs($this->_transport, $this->id, $name, $format, $start, $end, $notifyUrl, $pipeline);
     }
 
-    public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL) 
+    public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL, $pipeline = NULL) 
     {
-        return Api::streamSnapshot($this->_transport, $this->id, $name, $format, $time, $notifyUrl);
+        return Api::streamSnapshot($this->_transport, $this->id, $name, $format, $time, $notifyUrl, $pipeline);
     }
 
     // Publish URL
@@ -158,10 +158,10 @@ class Stream
     public function hlsLiveUrls()
     {
         $urls = array();
-        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8", $this->hosts["live"]["http"], $this->hub, $this->title);
+        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8", $this->hosts["live"]["hls"], $this->hub, $this->title);
         if (isset($this->profiles) && !empty($this->profiles)) {
             foreach ($this->profiles as $profile) {
-                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8", $this->hosts["live"]["http"], $this->hub, $this->title, $profile);
+                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8", $this->hosts["live"]["hls"], $this->hub, $this->title, $profile);
             }  
         }
         return $urls;
@@ -172,10 +172,10 @@ class Stream
     public function httpFlvLiveUrls()
     {
         $urls = array();
-        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.flv", $this->hosts["live"]["http"], $this->hub, $this->title);
+        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.flv", $this->hosts["live"]["hdl"], $this->hub, $this->title);
         if (isset($this->profiles) && !empty($this->profiles)) {
             foreach ($this->profiles as $profile) {
-                $urls[$profile] = sprintf("http://%s/%s/%s@%s.flv", $this->hosts["live"]["http"], $this->hub, $this->title, $profile);
+                $urls[$profile] = sprintf("http://%s/%s/%s@%s.flv", $this->hosts["live"]["hdl"], $this->hub, $this->title, $profile);
             }
         }
         return $urls;
@@ -183,13 +183,13 @@ class Stream
 
     // HLS Playback URLs
     // --------------------------------------------------------------------------------
-    public function hlsPlaybackUrls($start, $end)
+    public function hlsPlaybackUrls($start = -1, $end = -1)
     {
         $urls = array();
-        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["http"], $this->hub, $this->title, $start, $end);
+        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["hls"], $this->hub, $this->title, $start, $end);
         if (isset($this->profiles) && !empty($this->profiles)) {
             foreach ($this->profiles as $profile) {
-                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["http"], $this->hub, $this->title, $profile, $start, $end);
+                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["hls"], $this->hub, $this->title, $profile, $start, $end);
             } 
         }
         return $urls;
