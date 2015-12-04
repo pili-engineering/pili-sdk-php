@@ -98,8 +98,11 @@ class Stream
             case 'static':
                 $url = $this->_rtmpPublishStaticUrl();
                 break;
-            default:
+            case 'dynamic':
                 $url = $this->_rtmpPublishDynamicUrl();
+                break;
+            default:
+                $url = $this->_rtmpPublishBaseUrl();
                 break;
         }
         return $url;
@@ -108,7 +111,7 @@ class Stream
     private function _rtmpPublishDynamicUrl()
     {
         $nonce = time();
-        $url = sprintf("%s?nonce=%d&token=%s", $this->_rtmpPublishBaseUrl(), $nonce, $this->_publishToken($nonce));
+        $url = sprintf("%s?nonce=%d&token=%s", $this->_rtmpPublishBaseUrl(), $nonce, $this->_publishDynamicToken($nonce));
         return $url;
     }
 
@@ -124,7 +127,7 @@ class Stream
         return $url;
     }
 
-    private function _publishToken($nonce)
+    private function _publishDynamicToken($nonce)
     {
         $url = parse_url($this->_rtmpPublishBaseUrl());
         $data = $url['path'];
