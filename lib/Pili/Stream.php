@@ -57,16 +57,14 @@ class Stream
         return new Stream($this->_transport, $stream);
     }
 
-    public function disable() 
+    public function disable($disabledTill = NULL) 
     {
-        $this->disabled = true;
-        return $this->update();
+        return Api::streamAvailable($this->_transport, $this->id, "disabled", $disabledTill);
     }
 
     public function enable() 
     {
-        $this->disabled = false;
-        return $this->update();
+        return Api::streamAvailable($this->_transport, $this->id, "enabled");
     }
 
     public function delete() 
