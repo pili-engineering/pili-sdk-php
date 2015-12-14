@@ -145,5 +145,16 @@ final class Api
         $body = json_encode($params);
         return $transport->send(HttpRequest::POST, $url, $body);
     }
+
+    public static function streamAvailable($transport, $streamId, $available, $disabledTill = NULL)
+    {
+        $url = self::_getApiBaseUrl() . "streams/$streamId/available";
+        $params = array('available' => $available);
+        if (!empty($disabledTill)) {
+            $params['disabledTill'] = $disabledTill;
+        }
+        $body = json_encode($params);
+        return $transport->send(HttpRequest::POST, $url, $body);
+    }
 }
 ?>

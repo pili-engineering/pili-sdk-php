@@ -254,9 +254,10 @@ Pili\Stream::__set_state(array(
 
 
 // Disable a Stream
-$stream = $stream->disable(); # => Stream Object
+$disabledTill = time() + 10; # disabled in 10s from now
+$result = $stream->disable($disabledTill); # => NULL
 echo "Stream disable() =>\n";
-var_export($stream->disabled);
+var_export($result);
 echo "\n\n";
 /*
 true
@@ -264,9 +265,9 @@ true
 
 
 // Enable a Stream
-$stream = $stream->enable(); # => Stream Object
+$result = $stream->enable(); # => NULL
 echo "Stream enable() =>\n";
-var_export($stream->disabled);
+var_export($result);
 echo "\n\n";
 /*
 false
