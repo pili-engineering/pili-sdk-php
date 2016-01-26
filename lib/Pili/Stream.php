@@ -186,10 +186,10 @@ class Stream
     // --------------------------------------------------------------------------------
     public function hlsPlaybackUrls($start = -1, $end = -1)
     {
-        name = time();
-        $resp = $this->saveAs(name, NULL, $start, $end);
+        $name = sprintf("%d", time());
+        $resp = $this->saveAs($name, NULL, $start, $end);
         $urls = array();
-        $urls['ORIGIN'] = $resp->url;
+        $urls['ORIGIN'] = $resp["url"];
         return $urls;
     }
 }
