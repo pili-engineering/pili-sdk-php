@@ -140,10 +140,10 @@ define('SECRET_KEY', 'Qiniu_SecretKey');
 define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
 
 // Change API host as necessary
-// 
+//
 // pili.qiniuapi.com as default
 // pili-lte.qiniuapi.com is the latest RC version
-// 
+//
 // $cfg = \Pili\Config::getInstance();
 // $cfg->API_HOST = 'pili.qiniuapi.com'; // default
 ```
@@ -180,12 +180,12 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' => 
+   '_credentials' =>
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
   )),
-   '_data' => 
+   '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
     'createdAt' => '2015-08-21T18:11:37.057-04:00',
@@ -195,19 +195,19 @@ Pili\Stream::__set_state(array(
     'disabled' => false,
     "publishKey":"734de946-11e0-487a-8627-30bf777ed5a3",
     "publishSecurity":"dynamic",
-    'hosts' => 
+    'hosts' =>
     array (
-      'publish' => 
+      'publish' =>
       array (
         'rtmp' => 'pili-publish.example.com',
       ),
-      'live' => 
+      'live' =>
       array (
         'rtmp' => 'pili-live-rtmp.example.com',
         'hls' => 'pili-live-hls.example.com',
         'hdl' => 'pili-live-hdl.example.com',
       ),
-      'playback' => 
+      'playback' =>
       array (
         'hls' => 'pili-playback.example.com',
       ),
@@ -236,12 +236,12 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' => 
+   '_credentials' =>
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
   )),
-   '_data' => 
+   '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
     'createdAt' => '2015-08-21T18:11:37.057-04:00',
@@ -251,19 +251,19 @@ Pili\Stream::__set_state(array(
     'disabled' => false,
     "publishKey":"734de946-11e0-487a-8627-30bf777ed5a3",
     "publishSecurity":"dynamic",
-    'hosts' => 
+    'hosts' =>
     array (
-      'publish' => 
+      'publish' =>
       array (
         'rtmp' => 'pili-publish.example.com',
       ),
-      'live' => 
+      'live' =>
       array (
         'rtmp' => 'pili-live-rtmp.example.com',
         'hls' => 'pili-live-hls.example.com',
         'hdl' => 'pili-live-hdl.example.com',
       ),
-      'playback' => 
+      'playback' =>
       array (
         'hls' => 'pili-playback.example.com',
       ),
@@ -297,7 +297,7 @@ try {
 array (
   'marker' => '2',
   'end' => true,
-  'items' => 
+  'items' =>
   array (
       0 => Stream Object,
       1 => Stream Object,
@@ -362,12 +362,12 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' => 
+   '_credentials' =>
   Pili\Auth::__set_state(array(
      '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
      '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
   )),
-   '_data' => 
+   '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
     'createdAt' => '2015-08-21T18:11:37.057-04:00',
@@ -377,19 +377,19 @@ Pili\Stream::__set_state(array(
     'disabled' => false,
     'publishKey' => 'new_secret_words',
     'publishSecurity' => 'static',
-    'hosts' => 
+    'hosts' =>
     array (
-      'publish' => 
+      'publish' =>
       array (
         'rtmp' => 'pili-publish.example.com',
       ),
-      'live' => 
+      'live' =>
       array (
         'rtmp' => 'pili-live-rtmp.example.com',
         'hls' => 'pili-live-hls.example.com',
         'hdl' => 'pili-live-hdl.example.com',
       ),
-      'playback' => 
+      'playback' =>
       array (
         'hls' => 'pili-playback.example.com',
       ),
@@ -450,7 +450,7 @@ array (
   'addr' => '222.73.202.226:2572',
   'status' => 'connected',
   'bytesPerSecond' => 16870.200000000001,
-  'framesPerSecond' => 
+  'framesPerSecond' =>
   array (
     'audio' => 42.200000000000003,
     'video' => 14.733333333333333,
@@ -541,14 +541,14 @@ try {
 array (
   'start' => 1440196065,
   'end' => 1440198092,
-  'segments' => 
+  'segments' =>
   array (
-    0 => 
+    0 =>
     array (
       'start' => 1440196065,
       'end' => 1440196124,
     ),
-    1 => 
+    1 =>
     array (
       'start' => 1440198072,
       'end' => 1440198092,
@@ -660,6 +660,9 @@ NULL
 
 
 ## History
+
+- 1.5.4
+    - Use $stream->saveAs in $stream->hlsPlaybackUrls
 
 - 1.5.3
     - Update $stream->disable($disabledTill)
