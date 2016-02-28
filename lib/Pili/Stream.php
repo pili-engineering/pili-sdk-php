@@ -22,7 +22,7 @@ class Stream
 
     public function __get($property)
     {
-        if (isset($this->_data[$property])) 
+        if (isset($this->_data[$property]))
         {
             return $this->_data[$property];
         }
@@ -34,19 +34,19 @@ class Stream
 
     public function __set($property, $value)
     {
-        if (isset($this->_data[$property])) 
+        if (isset($this->_data[$property]))
         {
             $this->_data[$property] = $value;
         }
         return $this;
     }
 
-    public function toJSONString() 
+    public function toJSONString()
     {
         return json_encode($this->_data);
     }
 
-    public function status() 
+    public function status()
     {
         return Api::streamStatus($this->_transport, $this->id);
     }
@@ -57,32 +57,32 @@ class Stream
         return new Stream($this->_transport, $stream);
     }
 
-    public function disable($disabledTill = NULL) 
+    public function disable($disabledTill = NULL)
     {
         return Api::streamAvailable($this->_transport, $this->id, "disabled", $disabledTill);
     }
 
-    public function enable() 
+    public function enable()
     {
         return Api::streamAvailable($this->_transport, $this->id, "enabled");
     }
 
-    public function delete() 
+    public function delete()
     {
         return Api::streamDelete($this->_transport, $this->id);
     }
 
-    public function segments($start = NULL, $end = NULL, $limit = NULL) 
+    public function segments($start = NULL, $end = NULL, $limit = NULL)
     {
         return Api::streamSegments($this->_transport, $this->id, $start, $end, $limit);
     }
 
-    public function saveAs($name, $format = NULL, $start = NULL, $end = NULL, $notifyUrl = NULL, $pipeline = NULL) 
+    public function saveAs($name, $format = NULL, $start = NULL, $end = NULL, $notifyUrl = NULL, $pipeline = NULL)
     {
         return Api::streamSaveAs($this->_transport, $this->id, $name, $format, $start, $end, $notifyUrl, $pipeline);
     }
 
-    public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL, $pipeline = NULL) 
+    public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL, $pipeline = NULL)
     {
         return Api::streamSnapshot($this->_transport, $this->id, $name, $format, $time, $notifyUrl, $pipeline);
     }
@@ -91,7 +91,7 @@ class Stream
     // -------------------------------------------------------------------------------
     public function rtmpPublishUrl()
     {
-        switch ($this->publishSecurity) 
+        switch ($this->publishSecurity)
         {
             case 'static':
                 $url = $this->_rtmpPublishStaticUrl();
@@ -130,7 +130,7 @@ class Stream
         $url = parse_url($this->_rtmpPublishBaseUrl());
         $data = $url['path'];
         $separator = empty($url['query']) ? '?' : '&';
-        if (!empty($url['query'])) 
+        if (!empty($url['query']))
         {
             $data .= $separator . $url['query'];
         }
@@ -163,7 +163,7 @@ class Stream
         if (isset($this->profiles) && !empty($this->profiles)) {
             foreach ($this->profiles as $profile) {
                 $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8", $this->hosts["live"]["hls"], $this->hub, $this->title, $profile);
-            }  
+            }
         }
         return $urls;
     }
@@ -186,13 +186,10 @@ class Stream
     // --------------------------------------------------------------------------------
     public function hlsPlaybackUrls($start = -1, $end = -1)
     {
+        $name = sprintf("%d", time());
+        $resp = $this->saveAs($name, NULL, $start, $end);
         $urls = array();
-        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["hls"], $this->hub, $this->title, $start, $end);
-        if (isset($this->profiles) && !empty($this->profiles)) {
-            foreach ($this->profiles as $profile) {
-                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8?start=%d&end=%d", $this->hosts["playback"]["hls"], $this->hub, $this->title, $profile, $start, $end);
-            } 
-        }
+        $urls['ORIGIN'] = $resp["url"];
         return $urls;
     }
 }

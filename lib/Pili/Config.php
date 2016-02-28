@@ -3,7 +3,7 @@ namespace Pili;
 
 final class Config
 {
-    const SDK_VERSION           = '1.5.3';
+    const SDK_VERSION           = '1.5.4';
     const SDK_USER_AGENT        = 'pili-sdk-php';
 
 	public $USE_HTTPS           = false;
@@ -18,15 +18,15 @@ final class Config
 
     public static function getInstance()
     {
-        if (!(self::$_instance instanceof self)) {  
-            self::$_instance = new self();  
-        }  
-        return self::$_instance;  
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
 
     public function __get($property)
     {
-        if (property_exists(self::getInstance(), $property)) 
+        if (property_exists(self::getInstance(), $property))
         {
             return self::getInstance()->$property;
         }
@@ -38,7 +38,7 @@ final class Config
 
     public function __set($property, $value)
     {
-        if (property_exists(self::getInstance(), $property)) 
+        if (property_exists(self::getInstance(), $property))
         {
             self::getInstance()->$property = $value;
         }
