@@ -180,11 +180,6 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' =>
-  Pili\Auth::__set_state(array(
-     '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
-     '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
-  )),
    '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
@@ -236,11 +231,6 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' =>
-  Pili\Auth::__set_state(array(
-     '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
-     '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
-  )),
    '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
@@ -362,11 +352,6 @@ try {
 }
 /*
 Pili\Stream::__set_state(array(
-   '_credentials' =>
-  Pili\Auth::__set_state(array(
-     '_accessKey' => '74kG54cpbbkbhTMhnauZLsJObodYXecvlyUnL3AL',
-     '_secretKey' => 'gRgMaR7aGmyVrrkkXDVM19zlVq2K2v1ezufRtCpI',
-  )),
    '_data' =>
   array (
     'id' => 'z1.coding.55d7a219e3ba5723280000b5',
