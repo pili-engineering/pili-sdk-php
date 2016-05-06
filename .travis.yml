@@ -1,0 +1,6 @@
+# using docker container
+sudo: false
+
+language: php
+php:
+  - 7.0
