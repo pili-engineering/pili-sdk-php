@@ -1,0 +1,14 @@
+# using docker container
+sudo: false
+
+language: php
+php:
+  - 7.0
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
+script:
+#  - ./vendor/bin/phpcs --standard=PSR2 src
+#  - ./vendor/bin/phpcs --standard=PSR2 examples
+#  - ./vendor/bin/phpcs --standard=PSR2 tests
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover tests/Pili/Tests/
