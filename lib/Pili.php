@@ -8,7 +8,6 @@ require(join(DIRECTORY_SEPARATOR, array($root, 'Qiniu', 'HttpRequest.php')));
 require(join(DIRECTORY_SEPARATOR, array($root, 'Qiniu', 'Credentials.php')));
 require(join(DIRECTORY_SEPARATOR, array($root, 'Pili', 'Config.php')));
 require(join(DIRECTORY_SEPARATOR, array($root, 'Pili', 'Transport.php')));
-require(join(DIRECTORY_SEPARATOR, array($root, 'Pili', 'Api.php')));
 require(join(DIRECTORY_SEPARATOR, array($root, 'Pili', 'Hub.php')));
 require(join(DIRECTORY_SEPARATOR, array($root, 'Pili', 'Stream.php')));
 
