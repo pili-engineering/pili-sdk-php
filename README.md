@@ -38,6 +38,7 @@
         - [Generate HLS live play URLs](#generate-hls-live-play-urls)
         - [Generate Http-Flv live play URLs](#generate-http-flv-live-play-urls)
     - [Stream](#stream)
+        - [Get stream info](#get-stream-info)
         - [Enable a stream](#enable-a-stream)
         - [Disable a Stream](#disable-a-stream)
         - [Get Stream status](#get-stream-status)
@@ -126,13 +127,13 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ### Configuration
 
 ```php
-// Change API host as necessary
-//
-// pili.qiniuapi.com as default
-// pili-lte.qiniuapi.com is the latest RC version
-//
-// $cfg = \Pili\Config::getInstance();
-// $cfg->API_HOST = 'pili.qiniuapi.com'; // default
+    // Change API host as necessary
+    //
+    // pili.qiniuapi.com as default
+    // pili-lte.qiniuapi.com is the latest RC version
+    //
+    // $cfg = \Pili\Config::getInstance();
+    // $cfg->API_HOST = 'pili.qiniuapi.com'; // default
 ```
 
 
@@ -141,61 +142,65 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 #### Instantiate a pili hub object
 
 ```php
-// Instantiate an Hub object
-$credentials = new \Qiniu\Credentials(ACCESS_KEY, SECRET_KEY); #=> Credentials Object
-$hub = new \Pili\Hub($credentials, HUB); # => Hub Object
+    // Instantiate an Hub object
+    $ak = "7O7hf7Ld1RrC_fpZdFvU8aCgOPuhw2K4eapYOdII";
+    $sk = "6Rq7rMSUHHqOgo0DJjh15tHsGUBEH9QhWqqyj4ka";
+    $hubName = "PiliSDKTest";
+    $mac = new Qiniu\Mac($ak, $sk);
+    $client = new Pili\Client($mac);
+    $hub = $client->hub($hubName);
 ```
 
 
 #### Create a new stream
 
 ```php
-try{
-    $streamKey="php-sdk-test".time();
-    $resp=$hub->create($streamKey);
-    print_r($resp);
-}catch(\Exception $e) {
-         echo "Error:",$e;
-}
+    try{
+        $streamKey="php-sdk-test".time();
+        $resp=$hub->create($streamKey);
+        print_r($resp);
+    }catch(\Exception $e) {
+             echo "Error:",$e;
+    }
 ```
 
 
 #### Get a stream
 
 ```php
-try{
-    $streamKey="php-sdk-test".time();
-    $resp=$hub->get($streamKey);
-    print_r($resp);
-}catch(\Exception $e) {
-         echo "Error:",$e;
-}
+    try{
+        $streamKey="php-sdk-test".time();
+        $resp=$hub->stream($streamKey);
+        print_r($resp);
+    }catch(\Exception $e) {
+             echo "Error:",$e;
+    }
 ```
 
 
 #### List all streams
 
 ```php
-try{
-    $streamKey="php-sdk-test".time();
-    $resp=$hub->listStreams($streamKey, 1, "");
-    print_r($resp);
-}catch(\Exception $e) {
-         echo "Error:",$e;
-}
+    try{
+        $streamKey="php-sdk-test".time();
+        $resp=$hub->listStreams($streamKey, 1, "");
+        print_r($resp);
+    }catch(\Exception $e) {
+             echo "Error:",$e;
+    }
 ```
 
 
 #### List live streams
 
 ```php
-try{
-    $streamKey="php-sdk-test".time();
-    $resp=$hub->listLiveStreams($streamKey, 1, "");
-    print_r($resp);
-}catch(\Exception $e) {
-         echo "Error:",$e;
-}
+    try{
+        $streamKey="php-sdk-test".time();
+        $resp=$hub->listLiveStreams($streamKey, 1, "");
+        print_r($resp);
+    }catch(\Exception $e) {
+             echo "Error:",$e;
+    }
 ```
 
 
@@ -231,17 +236,35 @@ try{
 
 ### Stream
 
+#### Get stream info
+
+```php
+    try{
+        $resp = $stream->info();
+    }catch(\Exception $e) {
+       echo "Error:",$e;
+    }
+```
+
 #### Enable a Stream
 
 ```php
-   $stream->enable();
+    try{
+        $stream->enable();
+    }catch(\Exception $e) {
+       echo "Error:",$e;
+    }
 ```
 
 
 #### Disable a Stream
 
 ```php
-   $stream->disable();
+    try{
+        $stream->disable();
+    }catch(\Exception $e) {
+       echo "Error:",$e;
+    }
 ```
 
 

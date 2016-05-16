@@ -6,11 +6,11 @@ use \Qiniu\HttpRequest;
 
 final class Transport
 {
-    private $_credentials;
+    private $_mac;
 
-    public function __construct($credentials)
+    public function __construct($mac)
     {
-    	$this->_credentials = $credentials; 
+    	$this->_mac = $mac;
     }
 
     public function send($method, $url, $body = NULL)
@@ -25,7 +25,7 @@ final class Transport
         if ($method != HttpRequest::GET){
             $ctType = 'application/json';
         }
-        $macToken = $this->_credentials->MACToken($method, $url, $ctType, $body);
+        $macToken = $this->_mac->MACToken($method, $url, $ctType, $body);
         $ua = Utils::getUserAgent(Config::SDK_USER_AGENT, Config::SDK_VERSION);
         return array(
             'Content-Type'  => $ctType,

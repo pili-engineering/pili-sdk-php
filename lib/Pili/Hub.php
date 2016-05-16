@@ -11,10 +11,10 @@ class Hub
     private $_baseURL;
     private $_transport;
 
-    public function __construct($credentials, $hubName)
+    public function __construct($mac, $hubName)
     {
         $this->_hub = $hubName;
-        $this->_transport = new Transport($credentials);
+        $this->_transport = new Transport($mac);
 
         $cfg = Config::getInstance();
         $protocal = $cfg->USE_HTTPS === true ? "https" : "http";
@@ -35,16 +35,9 @@ class Hub
         return new Stream($this->_transport, $this->_hub, $streamKey);
     }
 
-    public function get($streamKey)
+    public function stream($streamKey)
     {
-        $eKey = Utils::base64UrlEncode($streamKey);
-        $url = $this->_baseURL . "/streams/" . $eKey;
-        try {
-            $disabledTill = $this->_transport->send(HttpRequest::GET, $url);
-        } catch (\Exception $e) {
-            return $e;
-        }
-        return new Stream($this->_transport, $this->_hub, $streamKey, $disabledTill);
+        return new Stream($this->_transport, $this->_hub, $streamKey);
     }
 
     private function _list($live, $prefix, $limit, $marker)

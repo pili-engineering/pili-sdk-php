@@ -10,20 +10,26 @@ class Stream
     private $_hub;
     private $_key;
     private $_baseUrl;
-    private $_disabledTill;
 
-    public function __construct($transport, $hub, $key, $disabledTill=0)
+    public function __construct($transport, $hub, $key)
     {
         $this->_transport = $transport;
         $this->_hub = $hub;
         $this->_key = $key;
-        $this->_disabledTill=$disabledTill;
 
         $cfg = Config::getInstance();
         $protocal = $cfg->USE_HTTPS === true ? "https" : "http";
         $this->_baseUrl = sprintf("%s://%s/%s/hubs/%s/streams/%s", $protocal, $cfg->API_HOST, $cfg->API_VERSION, $this->_hub, Utils::base64UrlEncode($this->_key));
     }
 
+    public function info()
+    {
+        $ret=array();
+        $ret["hub"]=$this->_hub;
+        $ret["key"]=$this->_key;
+        $ret["disabledTill"] = $this->_transport->send(HttpRequest::GET, $this->_baseUrl)["disabledTill"];
+        return $ret;
+    }
 
     public function disable()
     {
@@ -47,7 +53,7 @@ class Stream
         return $this->_transport->send(HttpRequest::GET, $url);
     }
 
-    public function historyRecord($start=NULL, $end=NULL)
+    public function historyRecord($start = NULL, $end = NULL)
     {
         $url = $this->_baseUrl . "/historyrecord";
         $flag = "?";
@@ -61,7 +67,7 @@ class Stream
         return $this->_transport->send(HttpRequest::GET, $url);
     }
 
-    public function save($start=NULL, $end=NULL)
+    public function save($start = NULL, $end = NULL)
     {
         $url = $this->_baseUrl . "/saveas";
         if (!empty($start)) {

@@ -7,21 +7,32 @@ $sk = "6Rq7rMSUHHqOgo0DJjh15tHsGUBEH9QhWqqyj4ka";
 $hubName = "PiliSDKTest";
 
 //创建hub
-$c = new Qiniu\Credentials($ak, $sk);
-$hub = new Pili\Hub($c, $hubName);
+echo "================Create hub\n";
+$mac = new Qiniu\Mac($ak, $sk);
+$client = new Pili\Client($mac);
+$hub = $client->hub($hubName);
+print_r($hub);
+//获取stream
+echo "================Get stream\n";
+$streamKey = "php-sdk-test" . time();
+$stream = $hub->stream($streamKey);
+print_r($stream);
 
 try {
     //创建stream
-    $streamKey = "php-sdk-test".time();
+    echo "================Create stream\n";
     $resp = $hub->create($streamKey);
     print_r($resp);
-    //获取stream信息
-    $stream = $hub->get($streamKey);
-    print_r($stream);
+    //获取stream info
+    echo "================Get stream info\n";
+    $resp = $stream->info();
+    print_r($resp);
     //列出所有流
+    echo "================List streams\n";
     $resp = $hub->listStreams("php-sdk-test", 1, "");
     print_r($resp);
     //列出正在直播的流
+    echo "================List live streams\n";
     $resp = $hub->listLiveStreams("php-sdk-test", 1, "");
     print_r($resp);
 } catch (\Exception $e) {
@@ -29,7 +40,7 @@ try {
 }
 
 try {
-    echo "liveStatus:\n";
+    echo "================Get liveStatus:\n";
     $status = $stream->liveStatus();
     print_r($status);
 } catch (\Exception $e) {
@@ -38,6 +49,7 @@ try {
 
 try {
     //启用流
+    echo "================Enable stream:\n";
     $stream->enable();
     $status = $stream->liveStatus();
     echo "liveStatus:\n";
@@ -48,6 +60,7 @@ try {
 
 try {
     //禁用流
+    echo "================Disable stream:\n";
     $stream->disable();
     $status = $stream->liveStatus();
     echo "liveStatus:\n";
@@ -58,6 +71,7 @@ try {
 
 try {
     //保存直播数据
+    echo "================Save stream:\n";
     $fname = $stream->save(1463217523, 1463303923);
     print_r($fname);
 } catch (\Exception $e) {
@@ -66,6 +80,7 @@ try {
 
 try {
     //查询推流历史
+    echo "================Get stream history record:\n";
     $records = $stream->historyRecord(1463217523, 1463303923);
     print_r($records);
 } catch (\Exception $e) {
