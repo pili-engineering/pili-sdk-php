@@ -3,10 +3,10 @@
 ## Features
 
 - Stream
-    - [x] $hub->create()
-    - [x] $hub->stream()
-    - [x] $hub->listLiveStreams()
-    - [x] $hub->listStreams()
+    - [x] hub->create()
+    - [x] hub->stream()
+    - [x] hub->listLiveStreams()
+    - [x] hub->listStreams()
 - URL
     - [x] stream->RTMPPublishURL()
     - [x] stream->RTMPPlayURL()
