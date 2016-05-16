@@ -215,7 +215,7 @@ try{
 ```
 
 
-#### Generate HLS play live URLs
+#### Generate HLS live play URLs
 
 ```php
     $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
