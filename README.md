@@ -4,7 +4,7 @@
 
 - Stream
     - [x] $hub->create()
-    - [x] $hub->get()
+    - [x] $hub->stream()
     - [x] $hub->listLiveStreams()
     - [x] $hub->listStreams()
 - URL
@@ -14,6 +14,7 @@
     - [x] stream->HDLPlayURL()
     - [x] stream->SnapshotPlayURL()
 - Stream
+    - [x] stream->info()
     - [x] stream->enable()
     - [x] stream->disable()
     - [x] stream->liveStatus()
