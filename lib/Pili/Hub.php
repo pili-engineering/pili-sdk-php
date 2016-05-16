@@ -1,8 +1,6 @@
 <?php
 namespace Pili;
 
-use \Pili\Transport;
-use \Pili\Stream;
 use \Qiniu\HttpRequest;
 use \Qiniu\Utils;
 
@@ -23,55 +21,88 @@ class Hub
         $this->_baseURL = $protocal . "://" . $cfg->API_HOST . "/v2/hubs/" . $this->_hub;
     }
 
-    public function create($streamKey){
+    public function create($streamKey)
+    {
         $url = $this->_baseURL . "/streams";
         $params['key'] = $streamKey;
         $body = json_encode($params);
         try {
             $this->_transport->send(HttpRequest::POST, $url, $body);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return $e;
         }
 
-        return new \Pili\Stream($this->_transport,$this->_hub,$streamKey);
+        return new Stream($this->_transport, $this->_hub, $streamKey);
     }
 
-    public function get($streamKey){
-        $eKey=Utils::base64UrlEncode($streamKey);
-        $url = $this->_baseURL . "/streams/".$eKey;
+    public function get($streamKey)
+    {
+        $eKey = Utils::base64UrlEncode($streamKey);
+        $url = $this->_baseURL . "/streams/" . $eKey;
         try {
-            $disabledTill=$this->_transport->send(HttpRequest::GET, $url);
-        }catch(\Exception $e){
+            $disabledTill = $this->_transport->send(HttpRequest::GET, $url);
+        } catch (\Exception $e) {
             return $e;
         }
-        return new \Pili\Stream($this->_transport,$this->_hub,$streamKey,$disabledTill);
+        return new Stream($this->_transport, $this->_hub, $streamKey, $disabledTill);
     }
 
-    private function _list($live, $prefix,$limit, $marker){
+    private function _list($live, $prefix, $limit, $marker)
+    {
         $url = sprintf("%s/streams?liveonly=%s&prefix=%s&limit=%d&marker=%s", $this->_baseURL, $live, $prefix, $limit, $marker);
-        echo $url,"\n";
         try {
-            $ret=$this->_transport->send(HttpRequest::GET, $url);
-        }catch(\Exception $e){
+            $ret = $this->_transport->send(HttpRequest::GET, $url);
+        } catch (\Exception $e) {
             return $e;
         }
-        $keys=array();
-        foreach ($ret["items"] as $item){
-            array_push($keys,$item["key"]);
+        $keys = array();
+        foreach ($ret["items"] as $item) {
+            array_push($keys, $item["key"]);
         }
-        $ret=array();
-        $ret["keys"]=$keys;
-        $ret["omarker"]=$ret["marker"];
+        $ret = array();
+        $ret["keys"] = $keys;
+        $ret["omarker"] = $ret["marker"];
         return $ret;
     }
 
-    public function listLiveStreams($prefix, $limit, $marker){
+    public function listLiveStreams($prefix, $limit, $marker)
+    {
         return $this->_list("true", $prefix, $limit, $marker);
     }
 
-    public function listStreams($prefix, $limit, $marker){
+    public function listStreams($prefix, $limit, $marker)
+    {
         return $this->_list("false", $prefix, $limit, $marker);
     }
+}
+
+//----------------url
+function RTMPPublishURL($domain, $hub, $streamKey, $expireAfterSeconds, $accessKey, $secretKey)
+{
+    $expire = time() + $expireAfterSeconds;
+    $path = sprintf("/%s/%s?e=%d", $hub, $streamKey, $expire);
+    $token = $accessKey . ":" . Utils::sign($secretKey, $path);
+    return sprintf("rtmp://%s%s&token=%s", $domain, $path, $token);
+}
+
+function RTMPPlayURL($domain, $hub, $streamKey)
+{
+    return sprintf("rtmp://%s/%s/%s", $domain, $hub, $streamKey);
+}
+
+function HLSPlayURL($domain, $hub, $streamKey)
+{
+    return sprintf("http://%s/%s/%s.m3u8", $domain, $hub, $streamKey);
+}
+
+function HDLPlayURL($domain, $hub, $streamKey)
+{
+    return sprintf("http://%s/%s/%s.flv", $domain, $hub, $streamKey);
+}
+
+function SnapshotPlayURL($domain, $hub, $streamKey)
+{
+    return sprintf("http://%s/%s/%s.jpg", $domain, $hub, $streamKey);
 }
 
 ?>

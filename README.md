@@ -26,21 +26,22 @@
 - [Usage](#usage)
     - [Configuration](#configuration)
     - [Hub](#hub)
-        - [Instantiate a Pili Hub object](#instantiate-a-pili-hub-object)
-        - [Create a new Stream](#create-a-new-stream)
-        - [Get a Stream](#get-a-stream)
-        - [List Streams](#List-streams)
+        - [Instantiate a pili hub object](#instantiate-a-pili-hub-object)
+        - [Create a new stream](#create-a-new-stream)
+        - [Get a stream](#get-a-stream)
+        - [List all streams](#List-all-streams)
+        - [List live streams](#List-live-streams)
+    - [Url](#url)
+        - [Generate RTMP publish URL](#generate-rtmp-publish-url)
+        - [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
+        - [Generate HLS live play URLs](generate-hls-live-play-urls)
+        - [Generate Http-Flv live play URLs](generate-http-flv-live-play-urls)
     - [Stream](#stream)
         - [Enable a stream](#enable-a-stream)
         - [Disable a Stream](#disable-a-stream)
         - [Get Stream status](#get-stream-status)
         - [Get History record](#get-history-record)
         - [Save Stream as a file](#save-stream-as-a-file)
-        - [Generate RTMP publish URL](#generate-rtmp-publish-url)
-        - [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
-        - [Generate HLS live play URLs](generate-hls-live-play-urls)
-        - [Generate Http-Flv live play URLs](generate-http-flv-live-play-urls)
-        - [Snapshot Stream](#snapshot-stream)
 
 
 ## Installaion
@@ -124,13 +125,6 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ### Configuration
 
 ```php
-// Replace with your keys here
-define('ACCESS_KEY', 'Qiniu_AccessKey');
-define('SECRET_KEY', 'Qiniu_SecretKey');
-
-// Replace with your hub name
-define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
-
 // Change API host as necessary
 //
 // pili.qiniuapi.com as default
@@ -143,7 +137,7 @@ define('HUB', 'Pili_Hub_Name'); // The Hub must be exists before use
 
 ### Hub
 
-#### Instantiate a Pili Hub object
+#### Instantiate a pili hub object
 
 ```php
 // Instantiate an Hub object
@@ -152,7 +146,7 @@ $hub = new \Pili\Hub($credentials, HUB); # => Hub Object
 ```
 
 
-#### Create a new Stream
+#### Create a new stream
 
 ```php
 try{
@@ -165,7 +159,7 @@ try{
 ```
 
 
-#### Get a Stream
+#### Get a stream
 
 ```php
 try{
@@ -178,7 +172,7 @@ try{
 ```
 
 
-#### List Streams
+#### List all streams
 
 ```php
 try{
@@ -188,6 +182,47 @@ try{
 }catch(\Exception $e) {
          echo "Error:",$e;
 }
+```
+
+#### List live streams
+
+```php
+try{
+    $streamKey="php-sdk-test".time();
+    $resp=$hub->listLiveStreams($streamKey, 1, "");
+    print_r($resp);
+}catch(\Exception $e) {
+         echo "Error:",$e;
+}
+```
+
+### Url
+
+#### Generate RTMP publish URL
+
+```php
+    $url=$stream->RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600,$ak,$sk);
+```
+
+
+#### Generate RTMP live play URLs
+
+```php
+    $url=$stream->RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
+```
+
+
+#### Generate HLS play live URLs
+
+```php
+    $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
+```
+
+
+#### Generate Http-Flv live play URLs
+
+```php
+    $url=$stream->HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
 ```
 
 
@@ -234,40 +269,6 @@ try{
     }catch(\Exception $e) {
         echo "Error:",$e;
     }
-```
-
-
-#### Generate RTMP publish URL
-
-```php
-    $url=$stream->RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600,$ak,$sk);
-```
-
-
-#### Generate RTMP live play URLs
-
-```php
-    $url=$stream->RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
-```
-
-
-#### Generate HLS play live URLs
-
-```php
-    $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
-```
-
-
-#### Generate Http-Flv live play URLs
-
-```php
-    $url=$stream->HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
-```
-
-#### Snapshot Stream
-
-```php
-    $url=$stream->SnapshotPlayURL("live-snapshot.test.com", $hubName, $streamKey);
 ```
 
 

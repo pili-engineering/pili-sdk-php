@@ -2,66 +2,89 @@
 
 require(join(DIRECTORY_SEPARATOR, array(dirname(dirname(__FILE__)), 'lib', 'Pili.php')));
 
-$ak="7O7hf7Ld1RrC_fpZdFvU8aCgOPuhw2K4eapYOdII";
-$sk="6Rq7rMSUHHqOgo0DJjh15tHsGUBEH9QhWqqyj4ka";
-$hubName="PiliSDKTest";
+$ak = "7O7hf7Ld1RrC_fpZdFvU8aCgOPuhw2K4eapYOdII";
+$sk = "6Rq7rMSUHHqOgo0DJjh15tHsGUBEH9QhWqqyj4ka";
+$hubName = "PiliSDKTest";
 
-$c=new Qiniu\Credentials($ak,$sk);
-$hub=new Pili\Hub($c,$hubName );
+//创建hub
+$c = new Qiniu\Credentials($ak, $sk);
+$hub = new Pili\Hub($c, $hubName);
+
 try {
-    $streamKey="php-sdk-test".time();
-    $resp=$hub->create($streamKey);
+    //创建stream
+    $streamKey = "php-sdk-test".time();
+    $resp = $hub->create($streamKey);
     print_r($resp);
+    //获取stream信息
     $stream = $hub->get($streamKey);
     print_r($stream);
-    $resp=$hub->listStreams("php-sdk-test", 1, "");
+    //列出所有流
+    $resp = $hub->listStreams("php-sdk-test", 1, "");
     print_r($resp);
-    $resp=$hub->listLiveStreams("php-sdk-test", 1, "");
+    //列出正在直播的流
+    $resp = $hub->listLiveStreams("php-sdk-test", 1, "");
     print_r($resp);
-
-    $records= $stream->historyRecord(1463217523,1463303923);
-    print_r($records);
-    
-    $url=$stream->RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600,$ak,$sk);
-    echo $url,"\n";
-
-    $url=$stream->RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
-    echo $url,"\n";
-
-    $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
-    echo $url,"\n";
-
-    $url=$stream->HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
-    echo $url,"\n";
-
-    $url=$stream->SnapshotPlayURL("live-snapshot.test.com", $hubName, $streamKey);
-    echo $url,"\n";
-
-
-} catch(\Exception $e) {
-    echo "Error:",$e;
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
 }
 
 try {
-    $stream->enable();
+    echo "liveStatus:\n";
     $status = $stream->liveStatus();
     print_r($status);
-}catch(\Exception $e) {
-    echo "Error:",$e;
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
 }
 
-try{
-    $stream->disable();
-    $status=$stream->liveStatus();
+try {
+    //启用流
+    $stream->enable();
+    $status = $stream->liveStatus();
+    echo "liveStatus:\n";
     print_r($status);
-}catch(\Exception $e) {
-    echo "Error:",$e;
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
 }
 
-try{
-    $fname=$stream->save(1463217523,1463303923);
-    print_r($fname);
-}catch(\Exception $e) {
-    echo "Error:",$e;
+try {
+    //禁用流
+    $stream->disable();
+    $status = $stream->liveStatus();
+    echo "liveStatus:\n";
+    print_r($status);
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
 }
+
+try {
+    //保存直播数据
+    $fname = $stream->save(1463217523, 1463303923);
+    print_r($fname);
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
+}
+
+try {
+    //查询推流历史
+    $records = $stream->historyRecord(1463217523, 1463303923);
+    print_r($records);
+} catch (\Exception $e) {
+    echo "Error:", $e, "\n";
+}
+
+//RTMP 推流地址
+$url = Pili\RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600, $ak, $sk);
+echo $url, "\n";
+//RTMP 直播放址
+$url = Pili\RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
+echo $url, "\n";
+//HLS 直播地址
+$url = Pili\HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
+echo $url, "\n";
+//HDL 直播地址
+$url = Pili\HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
+echo $url, "\n";
+//截图直播地址
+$url = Pili\SnapshotPlayURL("live-snapshot.test.com", $hubName, $streamKey);
+echo $url, "\n";
 

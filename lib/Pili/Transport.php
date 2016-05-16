@@ -3,8 +3,6 @@ namespace Pili;
 
 use \Qiniu\Utils;
 use \Qiniu\HttpRequest;
-use \Qiniu\Credentials;
-use \Pili\Config;
 
 final class Transport
 {

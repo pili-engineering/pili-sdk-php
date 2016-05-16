@@ -3,7 +3,6 @@ namespace Pili;
 
 use \Qiniu\Utils;
 use \Qiniu\HttpRequest;
-use \Pili\Transport;
 
 class Stream
 {
@@ -48,7 +47,7 @@ class Stream
         return $this->_transport->send(HttpRequest::GET, $url);
     }
 
-    public function historyRecord($start, $end)
+    public function historyRecord($start=NULL, $end=NULL)
     {
         $url = $this->_baseUrl . "/historyrecord";
         $flag = "?";
@@ -73,35 +72,6 @@ class Stream
         }
         $body = json_encode($params);
         return $this->_transport->send(HttpRequest::POST, $url, $body);
-    }
-
-    //----------------url
-    public function RTMPPublishURL($domain, $hub, $streamKey, $expireAfterSeconds, $accessKey, $secretKey)
-    {
-        $expire = time() + $expireAfterSeconds;
-        $path = sprintf("/%s/%s?e=%d", $hub, $streamKey, $expire);
-        $token = $accessKey . ":" . Utils::sign($secretKey, $path);
-        return sprintf("rtmp://%s%s&token=%s", $domain, $path, $token);
-    }
-
-    public function RTMPPlayURL($domain, $hub, $streamKey)
-    {
-        return sprintf("rtmp://%s/%s/%s", $domain, $hub, $streamKey);
-    }
-
-    public function HLSPlayURL($domain, $hub, $streamKey)
-    {
-        return sprintf("http://%s/%s/%s.m3u8", $domain, $hub, $streamKey);
-    }
-
-    public function HDLPlayURL($domain, $hub, $streamKey)
-    {
-        return sprintf("http://%s/%s/%s.flv", $domain, $hub, $streamKey);
-    }
-
-    public function SnapshotPlayURL($domain, $hub, $streamKey)
-    {
-        return sprintf("http://%s/%s/%s.jpg", $domain, $hub, $streamKey);
     }
 }
 
