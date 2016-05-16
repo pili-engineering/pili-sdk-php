@@ -2,22 +2,23 @@
 
 ## Features
 
-- Stream Create,Get,List
+- Stream
     - [x] $hub->create()
     - [x] $hub->get()
     - [x] $hub->listLiveStreams()
     - [x] $hub->listStreams()
-- Stream operations else
-    - [x] stream->enable()
-    - [x] stream->disable()
-    - [x] stream->liveStatus()
-    - [x] stream->historyRecord()
-    - [x] stream->save()
+- URL
     - [x] stream->RTMPPublishURL()
     - [x] stream->RTMPPlayURL()
     - [x] stream->HLSPlayURL()
     - [x] stream->HDLPlayURL()
     - [x] stream->SnapshotPlayURL()
+- Stream
+    - [x] stream->enable()
+    - [x] stream->disable()
+    - [x] stream->liveStatus()
+    - [x] stream->historyRecord()
+    - [x] stream->save()
 
 
 ## Contents
@@ -44,7 +45,7 @@
         - [Save Stream as a file](#save-stream-as-a-file)
 
 
-## Installaion
+## Installation
 
 ### Requirements
 
@@ -184,6 +185,7 @@ try{
 }
 ```
 
+
 #### List live streams
 
 ```php
@@ -195,6 +197,7 @@ try{
          echo "Error:",$e;
 }
 ```
+
 
 ### Url
 
@@ -228,7 +231,7 @@ try{
 
 ### Stream
 
-### Enable a Stream
+#### Enable a Stream
 
 ```php
    $stream->enable();
