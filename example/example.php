@@ -81,7 +81,7 @@ try {
 try {
     //查询推流历史
     echo "================Get stream history record:\n";
-    $records = $stream->historyRecord(1463217523, 1463303923);
+    $records = $stream->historyActivity(1463217523, 1463303923);
     print_r($records);
 } catch (\Exception $e) {
     echo "Error:", $e, "\n";

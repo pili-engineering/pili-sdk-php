@@ -53,7 +53,7 @@ class Stream
         return $this->_transport->send(HttpRequest::GET, $url);
     }
 
-    public function historyRecord($start = NULL, $end = NULL)
+    public function historyActivity($start = NULL, $end = NULL)
     {
         $url = $this->_baseUrl . "/historyrecord";
         $flag = "?";

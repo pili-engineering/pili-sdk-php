@@ -18,7 +18,7 @@
     - [x] stream->enable()
     - [x] stream->disable()
     - [x] stream->liveStatus()
-    - [x] stream->historyRecord()
+    - [x] stream->historyActivity()
     - [x] stream->save()
 
 
@@ -41,10 +41,10 @@
     - [Stream](#stream)
         - [Get stream info](#get-stream-info)
         - [Enable a stream](#enable-a-stream)
-        - [Disable a Stream](#disable-a-stream)
-        - [Get Stream status](#get-stream-status)
-        - [Get History record](#get-history-record)
-        - [Save Stream as a file](#save-stream-as-a-file)
+        - [Disable a stream](#disable-a-stream)
+        - [Get stream status](#get-stream-status)
+        - [Get history activity](#get-history-record)
+        - [Save stream as a file](#save-stream-as-a-file)
 
 
 ## Installation
@@ -247,7 +247,7 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }
 ```
 
-#### Enable a Stream
+#### Enable a stream
 
 ```php
     try{
@@ -258,7 +258,7 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ```
 
 
-#### Disable a Stream
+#### Disable a stream
 
 ```php
     try{
@@ -269,7 +269,7 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ```
 
 
-#### Get Stream status
+#### Get stream status
 
 ```php
    try{
@@ -280,14 +280,14 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
    }
 ```
 
-#### Get History record
+#### Get history activity
 
 ```php
-    $records= $stream->historyRecord(1463217523,1463303923);
+    $records= $stream->historyActivity(1463217523,1463303923);
     print_r($records);
 ```
 
-#### Save Stream as a file
+#### Save stream as a file
 
 ```php
     try{
