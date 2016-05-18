@@ -7,12 +7,6 @@
     - [x] hub->stream()
     - [x] hub->listLiveStreams()
     - [x] hub->listStreams()
-- URL
-    - [x] stream->RTMPPublishURL()
-    - [x] stream->RTMPPlayURL()
-    - [x] stream->HLSPlayURL()
-    - [x] stream->HDLPlayURL()
-    - [x] stream->SnapshotPlayURL()
 - Stream
     - [x] stream->info()
     - [x] stream->enable()
@@ -20,6 +14,13 @@
     - [x] stream->liveStatus()
     - [x] stream->historyActivity()
     - [x] stream->save()
+- URL
+    - [x] RTMPPublishURL()
+    - [x] RTMPPlayURL()
+    - [x] HLSPlayURL()
+    - [x] HDLPlayURL()
+    - [x] SnapshotPlayURL()
+
 
 
 ## Contents
