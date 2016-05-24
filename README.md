@@ -2,24 +2,24 @@
 
 ## Features
 
-- Stream
-    - [x] hub->create()
-    - [x] hub->stream()
-    - [x] hub->listLiveStreams()
-    - [x] hub->listStreams()
-- Stream
-    - [x] stream->info()
-    - [x] stream->enable()
-    - [x] stream->disable()
-    - [x] stream->liveStatus()
-    - [x] stream->historyActivity()
-    - [x] stream->save()
 - URL
-    - [x] RTMPPublishURL()
-    - [x] RTMPPlayURL()
-    - [x] HLSPlayURL()
-    - [x] HDLPlayURL()
-    - [x] SnapshotPlayURL()
+    - [x] RTMP推流地址: RTMPPublishURL(domain, hub, streamKey, mac, expireAfterSeconds)
+    - [x] RTMP直播地址: RTMPPlayURL(domain, hub, streamKey)
+    - [x] HLS直播地址: HLSPlayURL(domain, hub, streamKey)
+    - [x] HDL直播地址: HDLPlayURL(domain, hub, streamKey)
+    - [x] 截图直播地址: SnapshotPlayURL(domain, hub, streamKey)
+- Hub
+    - [x] 创建流: hub->create(streamKey)
+    - [x] 获得流: hub->stream(streamKey)
+    - [x] 列出流: hub->listLiveStreams(prefix, limit, marker)
+    - [x] 列出正在直播的流: hub->listStreams(prefix, limit, marker)
+- Stream
+    - [x] 流信息: stream->info()
+    - [x] 启用流: stream->enable()
+    - [x] 禁用流: stream->disable()
+    - [x] 查询直播状态: stream->liveStatus()
+    - [x] 保存直播回放: stream->save(start, end)
+    - [x] 查询直播历史: stream->historyActivity(start, end)
 
 
 
@@ -28,24 +28,25 @@
 - [Installation](#installation)
 - [Usage](#usage)
     - [Configuration](#configuration)
+    - [URL](#url)
+        - [Generate RTMP publish URL](#generate-rtmp-publish-url)
+        - [Generate RTMP play URL](#generate-rtmp-play-url)
+        - [Generate HLS play URL](#generate-hls-play-url)
+        - [Generate HDL play URL](#generate-hdl-play-url)
+        - [Generate snapshot play URL](#generate-snapshot-play-url)
     - [Hub](#hub)
         - [Instantiate a pili hub object](#instantiate-a-pili-hub-object)
         - [Create a new stream](#create-a-new-stream)
         - [Get a stream](#get-a-stream)
-        - [List all streams](#list-all-streams)
+        - [List streams](#list-streams)
         - [List live streams](#list-live-streams)
-    - [Url](#url)
-        - [Generate RTMP publish URL](#generate-rtmp-publish-url)
-        - [Generate RTMP live play URLs](#generate-rtmp-live-play-urls)
-        - [Generate HLS live play URLs](#generate-hls-live-play-urls)
-        - [Generate Http-Flv live play URLs](#generate-http-flv-live-play-urls)
     - [Stream](#stream)
         - [Get stream info](#get-stream-info)
-        - [Enable a stream](#enable-a-stream)
         - [Disable a stream](#disable-a-stream)
-        - [Get stream status](#get-stream-status)
-        - [Get history activity](#get-history-record)
-        - [Save stream as a file](#save-stream-as-a-file)
+        - [Enable a stream](#enable-a-stream)
+        - [Get stream live status](#get-stream-live-status)
+        - [Get stream history activity](#get-stream-history-activity)
+        - [Save stream live playback](#save-stream-live-playback)
 
 
 ## Installation
@@ -139,6 +140,58 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 ```
 
 
+### Url
+
+#### Generate RTMP publish URL
+
+```php
+    $url=$stream->RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600,$ak,$sk);
+    /*
+    rtmp://publish-rtmp.test.com/PiliSDKTest/streamkey?e=1463023142&token=7O7hf7Ld1RrC_fpZdFvU8aCgOPuhw2K4eapYOdII:-5IVlpFNNGJHwv-2qKwVIakC0ME=
+    */
+```
+
+
+#### Generate RTMP play URL
+
+```php
+    $url=$stream->RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
+    /*
+    rtmp://live-rtmp.test.com/PiliSDKTest/streamkey
+    */
+```
+
+
+#### Generate HLS play URL
+
+```php
+    $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
+    /*
+    http://live-hls.test.com/PiliSDKTest/streamkey.m3u8
+    */
+```
+
+
+#### Generate HDL play URL
+
+```php
+    $url=$stream->HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
+    /*
+    http://live-hdl.test.com/PiliSDKTest/streamkey.flv
+    */
+```
+
+
+#### Generate snapshot play URL
+
+```php
+    $url=$stream->SnapshotPlayURL("live-snapshot.test.com", $hubName, $streamKey);
+    /*
+    http://live-snapshot.test.com/PiliSDKTest/streamkey.jpg
+    */
+```
+
+
 ### Hub
 
 #### Instantiate a pili hub object
@@ -164,6 +217,9 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }catch(\Exception $e) {
              echo "Error:",$e;
     }
+    /*
+    {hub:hubname,key:streamkey,disabled:false}
+    */
 ```
 
 
@@ -177,10 +233,13 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }catch(\Exception $e) {
              echo "Error:",$e;
     }
+    /*
+    {hub:hubname,key:streamkey,disabled:false}
+    */
 ```
 
 
-#### List all streams
+#### List streams
 
 ```php
     try{
@@ -190,6 +249,9 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }catch(\Exception $e) {
              echo "Error:",$e;
     }
+    /*
+    keys=[streamkey] marker=
+    */
 ```
 
 
@@ -203,36 +265,9 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }catch(\Exception $e) {
              echo "Error:",$e;
     }
-```
-
-
-### Url
-
-#### Generate RTMP publish URL
-
-```php
-    $url=$stream->RTMPPublishURL("publish-rtmp.test.com", $hubName, $streamKey, 3600,$ak,$sk);
-```
-
-
-#### Generate RTMP live play URLs
-
-```php
-    $url=$stream->RTMPPlayURL("live-rtmp.test.com", $hubName, $streamKey);
-```
-
-
-#### Generate HLS live play URLs
-
-```php
-    $url=$stream->HLSPlayURL("live-hls.test.com", $hubName, $streamKey);
-```
-
-
-#### Generate Http-Flv live play URLs
-
-```php
-    $url=$stream->HDLPlayURL("live-hdl.test.com", $hubName, $streamKey);
+    /*
+    keys=[streamkey] marker=
+    */
 ```
 
 
@@ -246,16 +281,9 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
     }catch(\Exception $e) {
        echo "Error:",$e;
     }
-```
-
-#### Enable a stream
-
-```php
-    try{
-        $stream->enable();
-    }catch(\Exception $e) {
-       echo "Error:",$e;
-    }
+    /*
+    {hub:PiliSDKTest,key:streamkey,disabled:false}
+    */
 ```
 
 
@@ -263,14 +291,41 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
 
 ```php
     try{
+        $resp = $stream->info();
+        print_r($resp);
         $stream->disable();
+        $resp = $stream->info();
+        print_r($resp);
     }catch(\Exception $e) {
        echo "Error:",$e;
     }
+    /*
+    before disable: {hub:PiliSDKTest,key:streamkey,disabled:false}
+    after disable: {hub:PiliSDKTest,key:streamkey,disabled:true}
+    */
 ```
 
 
-#### Get stream status
+#### Enable a stream
+
+```php
+    try{
+        $resp = $stream->info();
+        print_r($resp);
+        $stream->enable();
+        $resp = $stream->info();
+        print_r($resp);
+    }catch(\Exception $e) {
+       echo "Error:",$e;
+    }
+    /*
+    before enable: {hub:PiliSDKTest,key:streamkey,disabled:true}
+    after enable: {hub:PiliSDKTest,key:streamkey,disabled:false}
+    */
+```
+
+
+#### Get stream live status
 
 ```php
    try{
@@ -279,24 +334,35 @@ require_once '/path/to/pili-sdk-php/lib/Pili.php';
    }catch(\Exception $e) {
        echo "Error:",$e;
    }
+   /*
+   {StartAt:1463382400 ClientIP:172.21.1.214:52897 BPS:128854 FPS:{Audio:38 Video:23 Data:0}}
+   */
 ```
 
-#### Get history activity
+
+#### Get stream history activity
 
 ```php
-    $records= $stream->historyActivity(1463217523,1463303923);
+    $records= $stream->historyActivity(0,0);
     print_r($records);
+    /*
+    [{1463382401 1463382441}]
+    */
 ```
 
-#### Save stream as a file
+
+#### Save stream live playback
 
 ```php
     try{
-        $fname=$stream->save(1463217523,1463303923);
+        $fname=$stream->save(0,0);
         print_r($fname);
     }catch(\Exception $e) {
         echo "Error:",$e;
     }
+    /*
+    recordings/z1.PiliSDKTest.streamkey/1463156847_1463157463.m3u8
+    */
 ```
 
 
