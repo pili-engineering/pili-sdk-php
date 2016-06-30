@@ -2,83 +2,195 @@
 namespace Pili;
 
 use \Qiniu\Utils;
-use \Qiniu\HttpRequest;
+use \Pili\Api;
 
 class Stream
 {
     private $_transport;
-    private $_hub;
-    private $_key;
-    private $_baseUrl;
+    private $_data;
 
-    public function __construct($transport, $hub, $key)
+    public function __construct($transport, $streamData = array())
     {
+        $this->_data = $streamData;
+
         $this->_transport = $transport;
-        $this->_hub = $hub;
-        $this->_key = $key;
 
-        $cfg = Config::getInstance();
-        $protocal = $cfg->USE_HTTPS === true ? "https" : "http";
-        $this->_baseUrl = sprintf("%s://%s/%s/hubs/%s/streams/%s", $protocal, $cfg->API_HOST, $cfg->API_VERSION, $this->_hub, Utils::base64UrlEncode($this->_key));
+        if (empty($streamData) || !is_array($streamData)) {
+            throw new \Exception('invalid args');
+        }
     }
 
-    public function info()
+    public function __get($property)
     {
-        $ret=array();
-        $ret["hub"]=$this->_hub;
-        $ret["key"]=$this->_key;
-        $ret["disabledTill"] = $this->_transport->send(HttpRequest::GET, $this->_baseUrl)["disabledTill"];
-        return $ret;
+        if (isset($this->_data[$property]))
+        {
+            return $this->_data[$property];
+        }
+        else
+        {
+            return NULL;
+        }
     }
 
-    public function disable()
+    public function __set($property, $value)
     {
-        $url = $this->_baseUrl . "/disabled";
-        $params['disabledTill'] = -1;
-        $body = json_encode($params);
-        return $this->_transport->send(HttpRequest::POST, $url, $body);
+        if (isset($this->_data[$property]))
+        {
+            $this->_data[$property] = $value;
+        }
+        return $this;
+    }
+
+    public function toJSONString()
+    {
+        return json_encode($this->_data);
+    }
+
+    public function status()
+    {
+        return Api::streamStatus($this->_transport, $this->id);
+    }
+
+    public function update()
+    {
+        $stream = Api::streamUpdate($this->_transport, $this->id, $this->_data);
+        return new Stream($this->_transport, $stream);
+    }
+
+    public function disable($disabledTill = NULL)
+    {
+        return Api::streamAvailable($this->_transport, $this->id, "disabled", $disabledTill);
     }
 
     public function enable()
     {
-        $url = $this->_baseUrl . "/disabled";
-        $params['disabledTill'] = 0;
-        $body = json_encode($params);
-        return $this->_transport->send(HttpRequest::POST, $url, $body);
+        return Api::streamAvailable($this->_transport, $this->id, "enabled");
     }
 
-    public function liveStatus()
+    public function delete()
     {
-        $url = $this->_baseUrl . "/live";
-        return $this->_transport->send(HttpRequest::GET, $url);
+        return Api::streamDelete($this->_transport, $this->id);
     }
 
-    public function historyActivity($start = NULL, $end = NULL)
+    public function segments($start = NULL, $end = NULL, $limit = NULL)
     {
-        $url = $this->_baseUrl . "/historyrecord";
-        $flag = "?";
-        if (!empty($start)) {
-            $url = $url . $flag . "start=" . $start;
-            $flag = "&";
-        }
-        if (!empty($end)) {
-            $url = $url . $flag . "end=" . $end;
-        }
-        return $this->_transport->send(HttpRequest::GET, $url);
+        return Api::streamSegments($this->_transport, $this->id, $start, $end, $limit);
     }
 
-    public function save($start = NULL, $end = NULL)
+    public function saveAs($name, $format = NULL, $start = NULL, $end = NULL, $notifyUrl = NULL, $pipeline = NULL)
     {
-        $url = $this->_baseUrl . "/saveas";
-        if (!empty($start)) {
-            $params['start'] = $start;
+        return Api::streamSaveAs($this->_transport, $this->id, $name, $format, $start, $end, $notifyUrl, $pipeline);
+    }
+
+    public function snapshot($name, $format, $time = NULL, $notifyUrl = NULL, $pipeline = NULL)
+    {
+        return Api::streamSnapshot($this->_transport, $this->id, $name, $format, $time, $notifyUrl, $pipeline);
+    }
+
+    // Publish URL
+    // -------------------------------------------------------------------------------
+    public function rtmpPublishUrl()
+    {
+        switch ($this->publishSecurity)
+        {
+            case 'static':
+                $url = $this->_rtmpPublishStaticUrl();
+                break;
+            case 'dynamic':
+                $url = $this->_rtmpPublishDynamicUrl();
+                break;
+            default:
+                $url = $this->_rtmpPublishBaseUrl();
+                break;
         }
-        if (!empty($end)) {
-            $params['end'] = $end;
+        return $url;
+    }
+
+    private function _rtmpPublishDynamicUrl()
+    {
+        $nonce = time();
+        $url = sprintf("%s?nonce=%d&token=%s", $this->_rtmpPublishBaseUrl(), $nonce, $this->_publishDynamicToken($nonce));
+        return $url;
+    }
+
+    private function _rtmpPublishStaticUrl()
+    {
+        $url = sprintf("%s?key=%s", $this->_rtmpPublishBaseUrl(), $this->publishKey);
+        return $url;
+    }
+
+    private function _rtmpPublishBaseUrl()
+    {
+        $url = sprintf("rtmp://%s/%s/%s", $this->hosts["publish"]["rtmp"], $this->hub, $this->title);
+        return $url;
+    }
+
+    private function _publishDynamicToken($nonce)
+    {
+        $url = parse_url($this->_rtmpPublishBaseUrl());
+        $data = $url['path'];
+        $separator = empty($url['query']) ? '?' : '&';
+        if (!empty($url['query']))
+        {
+            $data .= $separator . $url['query'];
         }
-        $body = json_encode($params);
-        return $this->_transport->send(HttpRequest::POST, $url, $body);
+        $data .= $separator . 'nonce=' . $nonce;
+        $publishToken = Utils::sign($this->publishKey, $data);
+        return $publishToken;
+    }
+
+    // RTMP Live Play URLs
+    // --------------------------------------------------------------------------------
+    public function rtmpLiveUrls()
+    {
+        $urls = array();
+        $url = sprintf("rtmp://%s/%s/%s", $this->hosts["live"]["rtmp"], $this->hub, $this->title);
+        $urls['ORIGIN'] = $url;
+        if (isset($this->profiles) && !empty($this->profiles)) {
+            foreach ($this->profiles as $profile) {
+                $urls[$profile] = sprintf("%s@%s", $url, $profile);
+            }
+        }
+        return $urls;
+    }
+
+    // HTTP Live Streaming Play URLs
+    // --------------------------------------------------------------------------------
+    public function hlsLiveUrls()
+    {
+        $urls = array();
+        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.m3u8", $this->hosts["live"]["hls"], $this->hub, $this->title);
+        if (isset($this->profiles) && !empty($this->profiles)) {
+            foreach ($this->profiles as $profile) {
+                $urls[$profile] = sprintf("http://%s/%s/%s@%s.m3u8", $this->hosts["live"]["hls"], $this->hub, $this->title, $profile);
+            }
+        }
+        return $urls;
+    }
+
+    // HTTP-Flv Live Play URLs
+    // --------------------------------------------------------------------------------
+    public function httpFlvLiveUrls()
+    {
+        $urls = array();
+        $urls['ORIGIN'] = sprintf("http://%s/%s/%s.flv", $this->hosts["live"]["hdl"], $this->hub, $this->title);
+        if (isset($this->profiles) && !empty($this->profiles)) {
+            foreach ($this->profiles as $profile) {
+                $urls[$profile] = sprintf("http://%s/%s/%s@%s.flv", $this->hosts["live"]["hdl"], $this->hub, $this->title, $profile);
+            }
+        }
+        return $urls;
+    }
+
+    // HLS Playback URLs
+    // --------------------------------------------------------------------------------
+    public function hlsPlaybackUrls($start = -1, $end = -1)
+    {
+        $name = sprintf("%d", time());
+        $resp = $this->saveAs($name, NULL, $start, $end);
+        $urls = array();
+        $urls['ORIGIN'] = $resp["url"];
+        return $urls;
     }
 }
-
 ?>
