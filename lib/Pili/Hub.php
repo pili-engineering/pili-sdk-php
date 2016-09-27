@@ -33,11 +33,13 @@ class Hub
     {
         $result = Api::listStreams($this->_transport, $this->_hub, $marker, $limit, $title_prefix, $status);
         $streams = $result["items"];
-        foreach ($streams as &$stream) {
-            $stream = new Stream($this->_transport, $stream);
+        if (count($streams)>0) {
+            foreach ($streams as &$stream) {
+                $stream = new Stream($this->_transport, $stream);
+            }
+            $result["items"] = $streams;
+            unset($stream);
         }
-        $result["items"] = $streams;
-        unset($stream);
         return $result;
     }
 }
